@@ -1,20 +1,18 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { FC } from "react";
+import { StatusBar } from "expo-status-bar";
+import { PaperProvider, MD3DarkTheme } from "react-native-paper";
+import { NavigationContainer } from "@react-navigation/native";
+import BottomTabs from "./src/navigators/BottomTabNavigator";
 
-export default function App() {
+const App: FC = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <PaperProvider theme={MD3DarkTheme}>
+      <NavigationContainer theme={MD3DarkTheme}>
+        <BottomTabs />
+        <StatusBar style="light" />
+      </NavigationContainer>
+    </PaperProvider>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
