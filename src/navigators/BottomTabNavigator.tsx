@@ -5,16 +5,14 @@ import { BottomNavigation } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import HomeScreen from "../screens/HomeScreen";
 import SettingsScreen from "../screens/SettingsScreen";
-import CustomNavigationBar from "./Header";
 
 const Tab = createBottomTabNavigator();
 
-const BottomTabs: FC = () => {
+const BottomTabNavigator: FC = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerShown: true,
-        header: (props) => <CustomNavigationBar {...props} />,
+        headerShown: false
       }}
       tabBar={({ navigation, state, descriptors, insets }) => (
         <BottomNavigation.Bar
@@ -46,7 +44,7 @@ const BottomTabs: FC = () => {
           getLabelText={({ route }) => {
             const { options } = descriptors[route.key];
             const label = options.tabBarLabel;
-            return label;
+            return options.tabBarLabel as string;
           }}
         />
       )}
@@ -75,4 +73,4 @@ const BottomTabs: FC = () => {
   );
 };
 
-export default BottomTabs;
+export default BottomTabNavigator;

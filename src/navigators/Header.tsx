@@ -1,9 +1,12 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { Appbar } from "react-native-paper";
+import { RouteProp } from "@react-navigation/native";
 
-const CustomNavigationBar: FC = (props) => {
-  const { route } = props;
+interface Props {
+  route: RouteProp<Record<string, object | undefined>, string>;
+}
 
+const CustomNavigationBar: FC<Props> = ({ route }) => {
   return (
     <Appbar.Header>
       <Appbar.Content title={route.name} />

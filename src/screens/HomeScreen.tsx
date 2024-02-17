@@ -1,11 +1,21 @@
 import { FC } from "react";
 import { View, StyleSheet } from "react-native";
-import { Text } from "react-native-paper";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { ParamListBase } from "@react-navigation/routers";
+import Card from "../components/Card";
 
-const HomeScreen: FC = () => {
+interface Props {
+  navigation: NativeStackNavigationProp<ParamListBase>
+}
+
+const HomeScreen: FC<Props> = ({ navigation }) => {
+  const handlePress = () => {
+    navigation.navigate('TransactionsScreen')
+  }
+
   return (
     <View style={styles.container}>
-      <Text variant="headlineMedium">Home!</Text>
+      <Card onPress={handlePress}/>
     </View>
   );
 };

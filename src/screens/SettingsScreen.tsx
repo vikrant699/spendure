@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { View, StyleSheet } from "react-native";
-import { Text, withTheme } from "react-native-paper";
+import { Text } from "react-native-paper";
 
 const SettingsScreen: FC = () => {
   return (
@@ -18,4 +18,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withTheme(SettingsScreen);
+export default SettingsScreen;
