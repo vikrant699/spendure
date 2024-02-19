@@ -3,19 +3,20 @@ import { View, StyleSheet } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ParamListBase } from "@react-navigation/routers";
 import Card from "../components/Card";
+import AddTransaction from "./AddTransaction";
 
 interface Props {
-  navigation: NativeStackNavigationProp<ParamListBase>
+  navigation: NativeStackNavigationProp<ParamListBase>;
 }
 
 const HomeScreen: FC<Props> = ({ navigation }) => {
   const handlePress = () => {
-    navigation.navigate('TransactionsScreen')
-  }
+    navigation.navigate("Transactions");
+  };
 
   return (
     <View style={styles.container}>
-      <Card onPress={handlePress}/>
+      <Card onPress={handlePress} />
     </View>
   );
 };

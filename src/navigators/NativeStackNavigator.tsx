@@ -10,10 +10,11 @@ const NativeStackNavigator: FC = () => {
   return (
     <Stack.Navigator screenOptions={{
         headerShown: true,
-        header: ({ route }) => <CustomNavigationBar route={route} />,
-      }}>
-      <Stack.Screen name="BottomTabsScreen" component={BottomTabNavigator} />
-      <Stack.Screen name="TransactionsScreen" component={TransactionsScreen} />
+        // header: ({ route }) => <CustomNavigationBar route={route} />,
+      }}
+      initialRouteName="BottomTabsStack">
+      <Stack.Screen name="BottomTabsStack" component={BottomTabNavigator} options={{ title: 'Home' }}/>
+      <Stack.Screen name="Transactions" component={TransactionsScreen} />
     </Stack.Navigator>
   );
 };
