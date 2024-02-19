@@ -1,10 +1,11 @@
-import { useMemo, forwardRef, ForwardRefRenderFunction, Ref } from 'react';
-import { View, StyleSheet, Button , Text} from 'react-native';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { BottomSheetModalMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
+import { useMemo, forwardRef, ForwardRefRenderFunction, Ref } from "react";
+import { View, StyleSheet, Button, Text } from "react-native";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 
-
-export const AddTransaction: ForwardRefRenderFunction<BottomSheetModalMethods> = (props, ref: Ref<BottomSheetModalMethods>) => {
+export const AddTransaction: ForwardRefRenderFunction<
+  BottomSheetModalMethods
+> = (props, ref: Ref<BottomSheetModalMethods>) => {
   const snapPoints = useMemo(() => ["85%"], []);
 
   return (
@@ -16,7 +17,7 @@ export const AddTransaction: ForwardRefRenderFunction<BottomSheetModalMethods> =
         enableDismissOnClose={true}
         enableDynamicSizing={false}
       >
-        <Text style={{color: "black"}}>YOoooooo</Text>
+        <Text style={{ color: "black" }}>YOoooooo</Text>
       </BottomSheetModal>
     </View>
   );

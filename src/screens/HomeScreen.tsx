@@ -3,8 +3,6 @@ import { View, StyleSheet } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ParamListBase } from "@react-navigation/routers";
 import Card from "../components/Card";
-import AddTransaction from "./AddTransaction";
-
 interface Props {
   navigation: NativeStackNavigationProp<ParamListBase>;
 }

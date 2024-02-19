@@ -1,4 +1,4 @@
-import { FC, useCallback, createRef} from "react";
+import { FC, useCallback, createRef } from "react";
 import { View, Platform, StyleSheet } from "react-native";
 import { MD3DarkTheme, TouchableRipple } from "react-native-paper";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
@@ -6,7 +6,7 @@ import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/typ
 import AddTransaction from "../screens/AddTransaction";
 
 const AddTransactionButton: FC = () => {
-    const bottomSheetModalRef = createRef<BottomSheetModalMethods>();
+  const bottomSheetModalRef = createRef<BottomSheetModalMethods>();
 
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
@@ -14,7 +14,7 @@ const AddTransactionButton: FC = () => {
 
   return (
     <>
-      <AddTransaction ref={bottomSheetModalRef}/>
+      <AddTransaction ref={bottomSheetModalRef} />
       <View style={styles.container}>
         <TouchableRipple onPress={handlePresentModalPress}>
           <MaterialIcon

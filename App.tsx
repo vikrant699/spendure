@@ -6,7 +6,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import NativeStackNavigator from "./src/navigators/NativeStackNavigator";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import AddTransaction from "./src/screens/AddTransaction";
 
 interface DefaultThemeColors extends MD3Colors {
   card: string;
