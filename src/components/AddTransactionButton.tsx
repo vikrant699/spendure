@@ -1,22 +1,22 @@
-import { FC, useCallback, createRef } from "react";
+import { FC } from "react";
 import { View, Platform, StyleSheet } from "react-native";
 import { MD3DarkTheme, TouchableRipple } from "react-native-paper";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
-import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import AddTransaction from "../screens/AddTransaction";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { HomeStackParamList } from "../types/types";
+
+type homeScreenProp = NativeStackNavigationProp<HomeStackParamList>;
 
 const AddTransactionButton: FC = () => {
-  const bottomSheetModalRef = createRef<BottomSheetModalMethods>();
-
-  const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.present();
-  }, []);
+  const navigation = useNavigation<homeScreenProp>();
 
   return (
     <>
-      <AddTransaction ref={bottomSheetModalRef} />
       <View style={styles.container}>
-        <TouchableRipple onPress={handlePresentModalPress}>
+        <TouchableRipple
+          onPress={() => navigation.navigate("AddTransactionStack")}
+        >
           <MaterialIcon
             name="add-circle"
             size={50}

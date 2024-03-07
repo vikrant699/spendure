@@ -3,9 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import { PaperProvider, MD3DarkTheme } from "react-native-paper";
 import { MD3Theme, MD3Colors } from "react-native-paper/lib/typescript/types";
 import { NavigationContainer } from "@react-navigation/native";
-import NativeStackNavigator from "./src/navigators/NativeStackNavigator";
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import BottomTabNavigator from "./src/navigators/BottomTabNavigator";
 
 interface DefaultThemeColors extends MD3Colors {
   card: string;
@@ -31,16 +29,12 @@ const theme: DefaultTheme = {
 
 const App: FC = () => {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <BottomSheetModalProvider>
-        <PaperProvider theme={theme}>
-          <NavigationContainer theme={theme}>
-            <NativeStackNavigator />
-            <StatusBar style="light" />
-          </NavigationContainer>
-        </PaperProvider>
-      </BottomSheetModalProvider>
-    </GestureHandlerRootView>
+    <PaperProvider theme={theme}>
+      <NavigationContainer theme={theme}>
+        <BottomTabNavigator />
+        <StatusBar style="light" />
+      </NavigationContainer>
+    </PaperProvider>
   );
 };
 

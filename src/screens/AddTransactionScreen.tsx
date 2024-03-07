@@ -1,16 +1,12 @@
 import { FC } from "react";
 import { View, StyleSheet } from "react-native";
-import { NavigationOnlyProps } from "../typesAndInterfaces/interfaces";
 import Card from "../components/Card";
+import { NavigationOnlyProps } from "../types/interfaces";
 
-const HomeScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
-  const handlePress = () => {
-    navigation.navigate("Transactions");
-  };
-
+const AddTrasactionScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Card onPress={handlePress} />
+      <Card onPress={() => navigation.navigate("TransactionCategory")} />
     </View>
   );
 };
@@ -23,4 +19,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default AddTrasactionScreen;

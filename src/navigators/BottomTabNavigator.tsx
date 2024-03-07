@@ -3,8 +3,8 @@ import { CommonActions } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BottomNavigation } from "react-native-paper";
 import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
-import HomeScreen from "../screens/HomeScreen";
-import SettingsScreen from "../screens/SettingsScreen";
+import HomeStack from "./HomeStack";
+import SettingsStack from "./SettingsStack";
 import AddTransactionButton from "../components/AddTransactionButton";
 
 const Tab = createBottomTabNavigator();
@@ -54,8 +54,8 @@ const BottomTabNavigator: FC = () => {
         )}
       >
         <Tab.Screen
-          name="Home"
-          component={HomeScreen}
+          name="HomeTab"
+          component={HomeStack}
           options={{
             tabBarLabel: "Home",
             tabBarIcon: ({ color, size }) => {
@@ -81,8 +81,8 @@ const BottomTabNavigator: FC = () => {
           }}
         />
         <Tab.Screen
-          name="Settings"
-          component={SettingsScreen}
+          name="SettingsTab"
+          component={SettingsStack}
           options={{
             tabBarLabel: "Settings",
             tabBarIcon: ({ color, size }) => {
