@@ -1,26 +1,29 @@
 import { createSlice, configureStore, PayloadAction } from "@reduxjs/toolkit";
 
-interface AuthState {
-  auth: boolean;
+interface AccountState {
+  accountBalance: number;
 }
 
-const initialAuthState: AuthState = { auth: false };
+const initialAccountStatus: AccountState = { accountBalance: 123 };
 
-const authSlice = createSlice({
+const accountSlice = createSlice({
   name: "auth",
-  initialState: initialAuthState,
+  initialState: initialAccountStatus,
   reducers: {
-    authenticate(state, action: PayloadAction<boolean>) {
-      state.auth = action.payload;
+    reduceBalance(state, action: PayloadAction<number>) {
+      state.accountBalance -= action.payload;
     },
   },
 });
 
 const store = configureStore({
   reducer: {
-    auth: authSlice.reducer,
+    accounts: accountSlice.reducer,
   },
 });
 
-export const { authenticate } = authSlice.actions;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export const { reduceBalance } = accountSlice.actions;
 export default store;
