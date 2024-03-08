@@ -5,7 +5,7 @@ import { MD3Theme, MD3Colors } from "react-native-paper/lib/typescript/types";
 import { NavigationContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
 import store from "./src/store/store";
-import RootStack from "./src/navigators/RootStackNavigation";
+import RootStack from "./src/navigators/RootStackNavigator";
 interface DefaultThemeColors extends MD3Colors {
   card: string;
   text: string;

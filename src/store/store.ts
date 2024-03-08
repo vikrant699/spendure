@@ -4,26 +4,29 @@ interface AccountState {
   accountBalance: number;
 }
 
-const initialAccountStatus: AccountState = { accountBalance: 123 };
+const initialAccountStatus: AccountState = { accountBalance: 200 };
 
-const accountSlice = createSlice({
-  name: "auth",
+const accountsSlice = createSlice({
+  name: "accounts",
   initialState: initialAccountStatus,
   reducers: {
     reduceBalance(state, action: PayloadAction<number>) {
       state.accountBalance -= action.payload;
+    },
+    addBalance(state, action: PayloadAction<number>) {
+      state.accountBalance += action.payload;
     },
   },
 });
 
 const store = configureStore({
   reducer: {
-    accounts: accountSlice.reducer,
+    accounts: accountsSlice.reducer,
   },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
-export const { reduceBalance } = accountSlice.actions;
+export const { reduceBalance, addBalance } = accountsSlice.actions;
 export default store;
