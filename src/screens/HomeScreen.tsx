@@ -5,7 +5,7 @@ import { NavigationOnlyProps } from "../types/interfaces";
 import Card from "../components/Card";
 
 const HomeScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
-  const amount = useAppSelector((state) => state.accounts.accountBalance);
+  const accounts = useAppSelector((state) => state.accounts);
 
   const handlePress = () => {
     navigation.navigate("Transactions");
@@ -13,7 +13,14 @@ const HomeScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Card onPress={handlePress} amount={amount} />
+      {Object.values(accounts).map((account) => (
+        <Card
+          key={account.accountId}
+          onPress={handlePress}
+          balance={account.accountBalance}
+          name={account.accountName}
+        />
+      ))}
     </View>
   );
 };

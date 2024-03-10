@@ -1,14 +1,12 @@
-export type HomeStackParamList = {
-  Home: undefined;
+export type RootStackParamList = {
+  BottomTabs: undefined;
   Transactions: undefined;
-  AddTransactionStack: undefined;
-};
-
-export type SettingsStackParamList = {
   Settings: undefined;
+  AddTransactionStack: undefined;
 };
 
 export type AddTransactionStackParamList = {
   AddTransaction: undefined;
   TransactionCategory: undefined;
+  SelectAccount: undefined;
 };

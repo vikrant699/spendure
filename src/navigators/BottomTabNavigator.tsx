@@ -17,7 +17,7 @@ const BottomTabNavigator: FC = () => {
       <AddTransactionButton />
       <Tab.Navigator
         screenOptions={{
-          headerShown: false,
+          headerShown: true,
         }}
         tabBar={({ navigation, state, descriptors, insets }) => (
           <BottomNavigation.Bar
@@ -54,7 +54,7 @@ const BottomTabNavigator: FC = () => {
         )}
       >
         <Tab.Screen
-          name="HomeTab"
+          name="Home"
           component={HomeScreen}
           options={{
             tabBarLabel: "Home",
@@ -81,7 +81,7 @@ const BottomTabNavigator: FC = () => {
           }}
         />
         <Tab.Screen
-          name="SettingsTab"
+          name="Settings"
           component={SettingsScreen}
           options={{
             tabBarLabel: "Settings",

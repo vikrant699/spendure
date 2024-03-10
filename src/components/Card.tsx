@@ -4,16 +4,17 @@ import { Surface, Text, TouchableRipple } from "react-native-paper";
 
 interface Props {
   onPress: () => void;
-  amount?: number;
+  name: string;
+  balance?: number;
 }
 
-const Card: FC<Props> = ({ onPress, amount = 0 }) => {
+const Card: FC<Props> = ({ onPress, name, balance = 0 }) => {
   return (
     <View style={styles.wrapper}>
       <TouchableRipple onPress={onPress}>
         <Surface style={styles.surface} elevation={4}>
-          <Text>Amount</Text>
-          <Text>{amount}</Text>
+          <Text>{name}</Text>
+          <Text>{balance}</Text>
         </Surface>
       </TouchableRipple>
     </View>

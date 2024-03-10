@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -8,28 +8,36 @@ import {
 } from "react-native";
 import { TextInput, Button, SegmentedButtons } from "react-native-paper";
 import { useHeaderHeight } from "@react-navigation/elements";
-import { useAppDispatch } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { NavigationOnlyProps } from "../types/interfaces";
 import { reduceBalance, addBalance } from "../store/store";
 
 const AddTrasactionScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
+  const selectedAccountId = useAppSelector(
+    (state) => state.appState.selectedAccountId
+  );
+  const accounts = useAppSelector((state) => state.accounts);
   const dispatch = useAppDispatch();
   const headerHeight = useHeaderHeight();
   const [amount, setAmount] = useState<string>("");
   const [transactionType, setTransactionType] = useState<string>("expense");
 
   const handleAddTransaction = () => {
-    let expense = 0;
+    let finalAmount = 0;
     if (amount !== "") {
-      expense = Number(amount);
+      finalAmount = Number(amount);
     }
 
     if (transactionType === "transfer") {
       // pass
     } else if (transactionType === "income") {
-      dispatch(addBalance(expense));
+      dispatch(
+        addBalance({ accountId: selectedAccountId, amount: finalAmount })
+      );
     } else {
-      dispatch(reduceBalance(expense));
+      dispatch(
+        reduceBalance({ accountId: selectedAccountId, amount: finalAmount })
+      );
     }
     navigation.goBack();
   };
@@ -71,6 +79,12 @@ const AddTrasactionScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
           onChangeText={(text) => setAmount(text)}
           keyboardAppearance="dark"
         />
+        <Button
+          mode="contained"
+          onPress={() => navigation.navigate("SelectAccount")}
+        >
+          {accounts[selectedAccountId].accountName}
+        </Button>
         <Button
           mode="contained"
           onPress={() => navigation.navigate("TransactionCategory")}

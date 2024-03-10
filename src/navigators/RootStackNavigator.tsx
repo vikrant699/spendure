@@ -1,24 +1,32 @@
 import { FC } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import BottomTabNavigator from "./BottomTabNavigator";
+import AddTransactionStack from "./AddTransactionStack";
 import TransactionsScreen from "../screens/TransactionsScreen";
 import SettingsScreen from "../screens/SettingsScreen";
-import AddTransactionStack from "./AddTransactionStack";
-import BottomTabNavigator from "./BottomTabNavigator";
 
 const Stack = createNativeStackNavigator();
 
 const RootStack: FC = () => {
   return (
     <Stack.Navigator
-      screenOptions={({ route }) => ({
-        headerShown: true,
+      screenOptions={({ navigation, route }) => ({
+        headerShown: false,
       })}
-      initialRouteName="Home"
+      initialRouteName="BottomTabs"
     >
       <Stack.Group>
-        <Stack.Screen name="Home" component={BottomTabNavigator} />
-        <Stack.Screen name="Transactions" component={TransactionsScreen} />
-        <Stack.Screen name="Settings" component={SettingsScreen} />
+        <Stack.Screen name="BottomTabs" component={BottomTabNavigator} />
+        <Stack.Screen
+          name="Transactions"
+          component={TransactionsScreen}
+          options={{ headerShown: true }}
+        />
+        <Stack.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={{ headerShown: true }}
+        />
       </Stack.Group>
       <Stack.Group
         screenOptions={{
