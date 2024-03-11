@@ -1,6 +1,7 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteProp } from "@react-navigation/native";
 import { ParamListBase } from "@react-navigation/routers";
+import { AddTransactionStackParamList } from "./types";
 
 // For components with only navigation prop
 export interface NavigationOnlyProps {
@@ -9,5 +10,5 @@ export interface NavigationOnlyProps {
 
 export interface SelectAccountScreenProps {
   navigation: NativeStackNavigationProp<ParamListBase>;
-  route: RouteProp<{ params: { toAccount?: boolean } }>;
+  route: RouteProp<AddTransactionStackParamList, "SelectAccount">;
 }

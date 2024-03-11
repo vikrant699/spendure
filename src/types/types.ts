@@ -8,5 +8,5 @@ export type RootStackParamList = {
 export type AddTransactionStackParamList = {
   AddTransaction: undefined;
   TransactionCategory: undefined;
-  SelectAccount: undefined;
+  SelectAccount: { toAccount?: boolean };
 };
