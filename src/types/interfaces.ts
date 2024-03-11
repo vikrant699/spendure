@@ -6,3 +6,8 @@ import { ParamListBase } from "@react-navigation/routers";
 export interface NavigationOnlyProps {
   navigation: NativeStackNavigationProp<ParamListBase>;
 }
+
+export interface SelectAccountScreenProps {
+  navigation: NativeStackNavigationProp<ParamListBase>;
+  route: RouteProp<{ params: { toAccount?: boolean } }>;
+}

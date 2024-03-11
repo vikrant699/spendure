@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AddTransactionStackParamList } from "../types/types";
-import AddTrasactionScreen from "../screens/AddTransactionScreen";
+import AddTrasactionScreen from "../screens/AddTransaction/AddTransactionScreen";
 import TransactionCategoryScreen from "../screens/TransactionCategoryScreen";
-import SelectAccountScreen from "../screens/SelectAccountScreen";
+import SelectAccountScreen from "../screens/AddTransaction/SelectAccountScreen";
 
 const Stack = createNativeStackNavigator<AddTransactionStackParamList>();
 

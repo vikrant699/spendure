@@ -12,6 +12,7 @@ const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
-export const { reduceBalance, addBalance } = accountsSlice.actions;
-export const { updateSelectedAccountId } = appStateSlice.actions;
+export const { reduceBalance, addBalance, addAccount } = accountsSlice.actions;
+export const { updateSelectedAccountId, updateTransferAccountId } =
+  appStateSlice.actions;
 export default store;

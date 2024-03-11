@@ -1,8 +1,8 @@
 import { createSlice, configureStore, PayloadAction } from "@reduxjs/toolkit";
 
 interface AccountState {
-  [accountId: string | number]: {
-    accountId: string | number;
+  [accountId: number]: {
+    accountId: number;
     accountName: string;
     accountBalance: number;
     transactions: {
@@ -34,7 +34,7 @@ export const accountsSlice = createSlice({
   reducers: {
     reduceBalance(
       state,
-      action: PayloadAction<{ accountId: string | number; amount: number }>
+      action: PayloadAction<{ accountId: number; amount: number }>
     ) {
       const { accountId, amount } = action.payload;
       if (state[accountId]) {
@@ -43,12 +43,25 @@ export const accountsSlice = createSlice({
     },
     addBalance(
       state,
-      action: PayloadAction<{ accountId: string | number; amount: number }>
+      action: PayloadAction<{ accountId: number; amount: number }>
     ) {
       const { accountId, amount } = action.payload;
       if (state[accountId]) {
         state[accountId].accountBalance += amount;
       }
+    },
+    addAccount(
+      state,
+      action: PayloadAction<{ accountName: string; balance: number }>
+    ) {
+      const { accountName, balance } = action.payload;
+      const maxAccountId = Math.max(...Object.keys(state).map(Number));
+      state[maxAccountId + 1] = {
+        accountId: maxAccountId + 1,
+        accountName: accountName,
+        accountBalance: balance,
+        transactions: [],
+      };
     },
   },
 });

@@ -8,13 +8,20 @@ import {
 } from "react-native";
 import { TextInput, Button, SegmentedButtons } from "react-native-paper";
 import { useHeaderHeight } from "@react-navigation/elements";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { NavigationOnlyProps } from "../types/interfaces";
-import { reduceBalance, addBalance } from "../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { NavigationOnlyProps } from "../../types/interfaces";
+import {
+  reduceBalance,
+  addBalance,
+  updateTransferAccountId,
+} from "../../store/store";
 
 const AddTrasactionScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
-  const selectedAccountId = useAppSelector(
-    (state) => state.appState.selectedAccountId
+  const selectedAccountId = Number(
+    useAppSelector((state) => state.appState.selectedAccountId)
+  );
+  const transferAccountId = Number(
+    useAppSelector((state) => state.appState.transferAccountId)
   );
   const accounts = useAppSelector((state) => state.accounts);
   const dispatch = useAppDispatch();
@@ -29,18 +36,41 @@ const AddTrasactionScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
     }
 
     if (transactionType === "transfer") {
-      // pass
+      dispatch(
+        reduceBalance({
+          accountId: selectedAccountId,
+          amount: finalAmount,
+        })
+      );
+      dispatch(
+        addBalance({
+          accountId: transferAccountId,
+          amount: finalAmount,
+        })
+      );
     } else if (transactionType === "income") {
       dispatch(
-        addBalance({ accountId: selectedAccountId, amount: finalAmount })
+        addBalance({
+          accountId: selectedAccountId,
+          amount: finalAmount,
+        })
       );
     } else {
       dispatch(
-        reduceBalance({ accountId: selectedAccountId, amount: finalAmount })
+        reduceBalance({
+          accountId: selectedAccountId,
+          amount: finalAmount,
+        })
       );
     }
     navigation.goBack();
   };
+
+  useEffect(() => {
+    if (selectedAccountId === transferAccountId) {
+      dispatch(updateTransferAccountId(0));
+    }
+  }, [selectedAccountId]);
 
   return (
     <KeyboardAvoidingView
@@ -81,10 +111,26 @@ const AddTrasactionScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
         />
         <Button
           mode="contained"
-          onPress={() => navigation.navigate("SelectAccount")}
+          onPress={() =>
+            navigation.navigate("SelectAccount", { toAccount: false })
+          }
         >
-          {accounts[selectedAccountId].accountName}
+          {selectedAccountId !== 0
+            ? accounts[selectedAccountId].accountName
+            : "Select Account"}
         </Button>
+        {transactionType === "transfer" && (
+          <Button
+            mode="contained"
+            onPress={() =>
+              navigation.navigate("SelectAccount", { toAccount: true })
+            }
+          >
+            {transferAccountId !== 0
+              ? accounts[transferAccountId].accountName
+              : "Select Transfer Account"}
+          </Button>
+        )}
         <Button
           mode="contained"
           onPress={() => navigation.navigate("TransactionCategory")}
