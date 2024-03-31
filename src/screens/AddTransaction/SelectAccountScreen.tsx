@@ -1,17 +1,22 @@
 import React, { FC } from "react";
 import { Button } from "react-native-paper";
-import { SelectAccountScreenProps } from "../../types/interfaces";
+import { RouteProp } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { ParamListBase } from "@react-navigation/routers";
+import { AddTransactionStackParamList } from "../../types/types";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import {
   updateSelectedAccountId,
   updateTransferAccountId,
 } from "../../store/store";
 
-const SelectAccountScreen: FC<SelectAccountScreenProps> = ({
-  navigation,
-  route,
-}) => {
-  const toAccount = route.params.toAccount;
+interface Props {
+  navigation: NativeStackNavigationProp<ParamListBase>;
+  route: RouteProp<AddTransactionStackParamList, "SelectAccount">;
+}
+
+const SelectAccountScreen: FC<Props> = ({ navigation, route }) => {
+  const toAccount = route?.params.toAccount;
   const dispatch = useAppDispatch();
   const accounts = useAppSelector((state) => state.accounts);
   const selectedAccountId = Number(
@@ -21,13 +26,13 @@ const SelectAccountScreen: FC<SelectAccountScreenProps> = ({
     useAppSelector((state) => state.appState.transferAccountId)
   );
 
-  const handleSelection = (id: number) => {
+  const handleSelection = (id: number): void => {
     if (!toAccount) {
       dispatch(updateSelectedAccountId(id));
     } else {
       dispatch(updateTransferAccountId(id));
     }
-    navigation.goBack();
+    navigation?.goBack();
   };
 
   return (

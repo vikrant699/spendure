@@ -5,9 +5,19 @@ import {
   Keyboard,
   Pressable,
   Platform,
+  View,
 } from "react-native";
-import { TextInput, Button, SegmentedButtons } from "react-native-paper";
+import {
+  Text,
+  Surface,
+  TextInput,
+  Button,
+  SegmentedButtons,
+  TouchableRipple,
+  MD3Colors,
+} from "react-native-paper";
 import { useHeaderHeight } from "@react-navigation/elements";
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { NavigationOnlyProps } from "../../types/interfaces";
 import {
@@ -15,6 +25,7 @@ import {
   addBalance,
   updateTransferAccountId,
 } from "../../store/store";
+import SelectItems from "./SelectItems";
 
 const AddTrasactionScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
   const selectedAccountId = Number(
@@ -29,7 +40,7 @@ const AddTrasactionScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
   const [amount, setAmount] = useState<string>("");
   const [transactionType, setTransactionType] = useState<string>("expense");
 
-  const handleAddTransaction = () => {
+  const handleAddTransaction = (): void => {
     let finalAmount = 0;
     if (amount !== "") {
       finalAmount = Number(amount);
@@ -109,27 +120,25 @@ const AddTrasactionScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
           onChangeText={(text) => setAmount(text)}
           keyboardAppearance="dark"
         />
-        <Button
-          mode="contained"
+        <SelectItems
           onPress={() =>
             navigation.navigate("SelectAccount", { toAccount: false })
           }
-        >
-          {selectedAccountId !== 0
-            ? accounts[selectedAccountId].accountName
-            : "Select Account"}
-        </Button>
+          title="Account"
+          selection={selectedAccountId !== 0}
+          selectedItemName={accounts[selectedAccountId]?.accountName}
+          defaultName="Select account"
+        />
         {transactionType === "transfer" && (
-          <Button
-            mode="contained"
+          <SelectItems
             onPress={() =>
               navigation.navigate("SelectAccount", { toAccount: true })
             }
-          >
-            {transferAccountId !== 0
-              ? accounts[transferAccountId].accountName
-              : "Select Transfer Account"}
-          </Button>
+            title="To account"
+            selection={transferAccountId !== 0}
+            selectedItemName={accounts[transferAccountId]?.accountName}
+            defaultName="Select account"
+          />
         )}
         <Button
           mode="contained"
