@@ -15,4 +15,5 @@ export type AppDispatch = typeof store.dispatch;
 export const { reduceBalance, addBalance, addAccount } = accountsSlice.actions;
 export const { updateSelectedAccountId, updateTransferAccountId } =
   appStateSlice.actions;
+
 export default store;

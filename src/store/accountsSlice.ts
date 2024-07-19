@@ -1,32 +1,20 @@
-import { createSlice, configureStore, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AccountState } from "../common/interfaces";
 
-interface AccountState {
-  [accountId: number]: {
-    accountId: number;
-    accountName: string;
-    accountBalance: number;
-    transactions: {
-      title: string;
-      notes: string;
-      date: Date;
-    }[];
-  };
-}
-
-const initialAccountStatus: AccountState = {
-  1: {
-    accountId: 1,
-    accountName: "Account 1",
+const initialAccountStatus: AccountState[] = [
+  {
+    id: "1",
+    name: "Account 1",
     accountBalance: 0,
     transactions: [],
   },
-  2: {
-    accountId: 2,
-    accountName: "Account 2",
+  {
+    id: "2",
+    name: "Account 2",
     accountBalance: 0,
     transactions: [],
   },
-};
+];
 
 export const accountsSlice = createSlice({
   name: "accounts",
@@ -34,34 +22,33 @@ export const accountsSlice = createSlice({
   reducers: {
     reduceBalance(
       state,
-      action: PayloadAction<{ accountId: number; amount: number }>
+      action: PayloadAction<{ id: string; amount: number }>
     ) {
-      const { accountId, amount } = action.payload;
-      if (state[accountId]) {
-        state[accountId].accountBalance -= amount;
+      const { id, amount } = action.payload;
+      const accountToUpdate = state.find((acc) => acc.id === id);
+      if (accountToUpdate) {
+        accountToUpdate.accountBalance -= amount;
       }
     },
-    addBalance(
-      state,
-      action: PayloadAction<{ accountId: number; amount: number }>
-    ) {
-      const { accountId, amount } = action.payload;
-      if (state[accountId]) {
-        state[accountId].accountBalance += amount;
+    addBalance(state, action: PayloadAction<{ id: string; amount: number }>) {
+      const { id, amount } = action.payload;
+      const accountToUpdate = state.find((acc) => acc.id === id);
+      if (accountToUpdate) {
+        accountToUpdate.accountBalance += amount;
       }
     },
     addAccount(
       state,
-      action: PayloadAction<{ accountName: string; balance: number }>
+      action: PayloadAction<{ name: string; balance: number }>
     ) {
-      const { accountName, balance } = action.payload;
-      const maxAccountId = Math.max(...Object.keys(state).map(Number));
-      state[maxAccountId + 1] = {
-        accountId: maxAccountId + 1,
-        accountName: accountName,
+      const { name, balance } = action.payload;
+      const maxAccountId = Math.max(...state.map((acc) => Number(acc.id)));
+      state.push({
+        id: (+maxAccountId + 1).toString(),
+        name: name,
         accountBalance: balance,
         transactions: [],
-      };
+      });
     },
   },
 });

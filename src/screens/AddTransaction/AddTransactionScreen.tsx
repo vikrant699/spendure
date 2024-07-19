@@ -7,38 +7,49 @@ import {
   Platform,
   View,
 } from "react-native";
-import {
-  Text,
-  Surface,
-  TextInput,
-  Button,
-  SegmentedButtons,
-  TouchableRipple,
-  MD3Colors,
-} from "react-native-paper";
+import { TextInput, Button, SegmentedButtons } from "react-native-paper";
 import { useHeaderHeight } from "@react-navigation/elements";
-import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { NavigationOnlyProps } from "../../types/interfaces";
+import { NavigationOnlyProps } from "../../common/interfaces";
 import {
   reduceBalance,
   addBalance,
+  updateSelectedAccountId,
   updateTransferAccountId,
 } from "../../store/store";
-import SelectItems from "./SelectItems";
+import SelectItems from "../../common/components/SelectItems";
 
 const AddTrasactionScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
-  const selectedAccountId = Number(
-    useAppSelector((state) => state.appState.selectedAccountId)
+  const selectedAccountId = useAppSelector(
+    (state) => state.appState.selectedAccountId
   );
-  const transferAccountId = Number(
-    useAppSelector((state) => state.appState.transferAccountId)
+  const transferAccountId = useAppSelector(
+    (state) => state.appState.transferAccountId
   );
   const accounts = useAppSelector((state) => state.accounts);
+
+  const unselectedAccounts = accounts.filter(
+    (acc) => acc.id !== selectedAccountId
+  );
+  const unselectedTransferAccounts = accounts.filter(
+    (acc) => acc.id !== transferAccountId && acc.id !== selectedAccountId
+  );
+
+  const selectedAccountName = accounts.find(
+    (acc) => acc.id === selectedAccountId
+  )?.name;
+  const transferAccountName = accounts.find(
+    (acc) => acc.id === transferAccountId
+  )?.name;
+
+  console.log(unselectedAccounts);
   const dispatch = useAppDispatch();
   const headerHeight = useHeaderHeight();
   const [amount, setAmount] = useState<string>("");
   const [transactionType, setTransactionType] = useState<string>("expense");
+
+  const disableButton =
+    amount === "" || selectedAccountId === "" ? true : false;
 
   const handleAddTransaction = (): void => {
     let finalAmount = 0;
@@ -49,27 +60,28 @@ const AddTrasactionScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
     if (transactionType === "transfer") {
       dispatch(
         reduceBalance({
-          accountId: selectedAccountId,
+          id: selectedAccountId,
           amount: finalAmount,
         })
       );
       dispatch(
         addBalance({
-          accountId: transferAccountId,
+          id: transferAccountId,
           amount: finalAmount,
         })
       );
+      dispatch(updateTransferAccountId(""));
     } else if (transactionType === "income") {
       dispatch(
         addBalance({
-          accountId: selectedAccountId,
+          id: selectedAccountId,
           amount: finalAmount,
         })
       );
     } else {
       dispatch(
         reduceBalance({
-          accountId: selectedAccountId,
+          id: selectedAccountId,
           amount: finalAmount,
         })
       );
@@ -79,9 +91,15 @@ const AddTrasactionScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
 
   useEffect(() => {
     if (selectedAccountId === transferAccountId) {
-      dispatch(updateTransferAccountId(0));
+      dispatch(updateTransferAccountId(""));
     }
   }, [selectedAccountId]);
+
+  useEffect(() => {
+    if (selectedAccountId === transferAccountId) {
+      dispatch(updateSelectedAccountId(""));
+    }
+  }, [transferAccountId]);
 
   return (
     <KeyboardAvoidingView
@@ -120,34 +138,59 @@ const AddTrasactionScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
           onChangeText={(text) => setAmount(text)}
           keyboardAppearance="dark"
         />
-        <SelectItems
-          onPress={() =>
-            navigation.navigate("SelectAccount", { toAccount: false })
-          }
-          title="Account"
-          selection={selectedAccountId !== 0}
-          selectedItemName={accounts[selectedAccountId]?.accountName}
-          defaultName="Select account"
-        />
-        {transactionType === "transfer" && (
+        <View>
           <SelectItems
+            hasNestedItems={true}
             onPress={() =>
-              navigation.navigate("SelectAccount", { toAccount: true })
+              navigation.navigate("SelectItem", {
+                title: "Select Account",
+                items: unselectedAccounts,
+                onSelect: (selectedItemId: Record<string, any>) => {
+                  console.log(selectedItemId);
+                },
+              })
             }
-            title="To account"
-            selection={transferAccountId !== 0}
-            selectedItemName={accounts[transferAccountId]?.accountName}
-            defaultName="Select account"
+            title="Account"
+            selectedItemName={selectedAccountName}
+            itemName="Select account"
           />
-        )}
+          {transactionType === "transfer" && (
+            <SelectItems
+              hasNestedItems={true}
+              onPress={() =>
+                navigation.navigate("SelectItem", {
+                  title: "Select Account",
+                  items: unselectedTransferAccounts,
+                  onSelect: (selectedItemId: Record<string, any>) => {
+                    console.log(selectedItemId);
+                  },
+                })
+              }
+              title="To account"
+              selectedItemName={transferAccountName}
+              itemName="Select account"
+            />
+          )}
+          {transactionType !== "transfer" && (
+            <SelectItems
+              hasNestedItems={true}
+              onPress={() =>
+                navigation.navigate("SelectItem", {
+                  type: "category",
+                  title: "Select Category",
+                  onSelect: (selectedItemId: Record<string, any>) => {
+                    console.log(selectedItemId);
+                  },
+                })
+              }
+              title="Category"
+              // selectedItemName={accounts[transferAccountId]?.name}
+              itemName="Select Category"
+            />
+          )}
+        </View>
         <Button
-          mode="contained"
-          onPress={() => navigation.navigate("TransactionCategory")}
-        >
-          Transaction Category
-        </Button>
-        <Button
-          disabled={amount === "" ? true : false}
+          disabled={disableButton}
           mode="contained"
           onPress={handleAddTransaction}
         >

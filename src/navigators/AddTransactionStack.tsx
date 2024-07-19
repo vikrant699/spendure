@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { AddTransactionStackParamList } from "../types/types";
+import { AddTransactionStackParamList } from "../common/types";
 import AddTrasactionScreen from "../screens/AddTransaction/AddTransactionScreen";
 import TransactionCategoryScreen from "../screens/TransactionCategoryScreen";
-import SelectAccountScreen from "../screens/AddTransaction/SelectAccountScreen";
+import SelectItemsScreen from "../common/screens/SelectItemsScreen/SelectItemsScreen";
 
 const Stack = createNativeStackNavigator<AddTransactionStackParamList>();
 
@@ -20,7 +20,11 @@ const AddTransactionStack: FC = () => {
         name="TransactionCategory"
         component={TransactionCategoryScreen}
       />
-      <Stack.Screen name="SelectAccount" component={SelectAccountScreen} />
+      <Stack.Screen
+        name="SelectItem"
+        component={SelectItemsScreen}
+        options={({ route }) => ({ title: route.params.title })}
+      />
     </Stack.Navigator>
   );
 };

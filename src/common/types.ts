@@ -1,3 +1,5 @@
+import { AccountState } from "./interfaces";
+
 export type RootStackParamList = {
   BottomTabs: undefined;
   Transactions: undefined;
@@ -8,5 +10,9 @@ export type RootStackParamList = {
 export type AddTransactionStackParamList = {
   AddTransaction: undefined;
   TransactionCategory: undefined;
-  SelectAccount: { toAccount?: boolean };
+  SelectItem: {
+    title?: string;
+    items: AccountState[];
+    onSelect: (payload: Record<string, any>) => void;
+  };
 };

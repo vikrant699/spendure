@@ -1,23 +1,19 @@
-import { createSlice, configureStore, PayloadAction } from "@reduxjs/toolkit";
-
-interface AppState {
-  selectedAccountId: number;
-  transferAccountId: number;
-}
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AppState } from "../common/interfaces";
 
 const initialAppState: AppState = {
-  selectedAccountId: 0,
-  transferAccountId: 0,
+  selectedAccountId: "",
+  transferAccountId: "",
 };
 
 export const appStateSlice = createSlice({
   name: "app_state",
   initialState: initialAppState,
   reducers: {
-    updateSelectedAccountId(state, action: PayloadAction<number>) {
+    updateSelectedAccountId(state, action: PayloadAction<string>) {
       state.selectedAccountId = action.payload;
     },
-    updateTransferAccountId(state, action: PayloadAction<number>) {
+    updateTransferAccountId(state, action: PayloadAction<string>) {
       state.transferAccountId = action.payload;
     },
   },

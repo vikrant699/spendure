@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { View, StyleSheet } from "react-native";
 import { Text } from "react-native-paper";
-import { NavigationOnlyProps } from "../types/interfaces";
+import { NavigationOnlyProps } from "../common/interfaces";
 
 const SettingsScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
   return (

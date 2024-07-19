@@ -1,8 +1,8 @@
 import { FC } from "react";
 import { View, StyleSheet } from "react-native";
 import { useAppSelector } from "../../store/hooks";
-import { NavigationOnlyProps } from "../../types/interfaces";
-import Card from "./Card";
+import { NavigationOnlyProps } from "../../common/interfaces";
+import Card from "../../common/components/Card";
 import { width } from "../../utils/constants";
 
 const HomeScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
@@ -20,10 +20,10 @@ const HomeScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
     <View style={styles.container}>
       {Object.values(accounts).map((account) => (
         <Card
-          key={account.accountId}
+          key={account.id}
           onPress={handleAccountPress}
           balance={account.accountBalance}
-          name={account.accountName}
+          name={account.name}
           addAccount={false}
         />
       ))}

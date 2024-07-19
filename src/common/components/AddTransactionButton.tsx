@@ -4,7 +4,7 @@ import { MD3DarkTheme, TouchableRipple } from "react-native-paper";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../types/types";
+import { RootStackParamList } from "../types";
 
 const AddTransactionButton: FC = () => {
   const navigation =

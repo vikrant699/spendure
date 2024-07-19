@@ -5,7 +5,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { useAppDispatch } from "../store/hooks";
 import { addAccount } from "../store/store";
-import { RootStackParamList } from "../types/types";
+import { RootStackParamList } from "../common/types";
 
 const AddAccountScreen = () => {
   const navigation =
@@ -17,7 +17,7 @@ const AddAccountScreen = () => {
   const dispatch = useAppDispatch();
 
   const handleAddAccount = () => {
-    dispatch(addAccount({ accountName, balance }));
+    dispatch(addAccount({ name: accountName, balance }));
     navigation.goBack();
   };
 
@@ -31,7 +31,6 @@ const AddAccountScreen = () => {
         onChangeText={(text) => setAccountName(text)}
       />
       <TextInput
-        autoFocus={true}
         label="Account balance..."
         inputMode="decimal"
         //   value={amount}

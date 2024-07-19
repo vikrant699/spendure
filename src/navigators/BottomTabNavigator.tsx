@@ -5,7 +5,7 @@ import { BottomNavigation } from "react-native-paper";
 import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import HomeScreen from "../screens/Home/HomeScreen";
 import SettingsScreen from "../screens/SettingsScreen";
-import AddTransactionButton from "../components/AddTransactionButton";
+import AddTransactionButton from "../common/components/AddTransactionButton";
 
 const Tab = createBottomTabNavigator();
 
