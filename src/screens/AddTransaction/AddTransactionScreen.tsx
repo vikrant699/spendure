@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import { TextInput, Button, SegmentedButtons } from "react-native-paper";
-import { useHeaderHeight } from "@react-navigation/elements";
+import DateSelector from "./DateSelector";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { NavigationOnlyProps } from "../../common/interfaces";
 import {
@@ -18,6 +18,7 @@ import {
   updateTransferAccountId,
 } from "../../store/store";
 import SelectItems from "../../common/components/SelectItems";
+import { transactionCategories } from "../../common/constants";
 
 const AddTrasactionScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
   const selectedAccountId = useAppSelector(
@@ -42,14 +43,35 @@ const AddTrasactionScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
     (acc) => acc.id === transferAccountId
   )?.name;
 
-  console.log(unselectedAccounts);
   const dispatch = useAppDispatch();
-  const headerHeight = useHeaderHeight();
   const [amount, setAmount] = useState<string>("");
   const [transactionType, setTransactionType] = useState<string>("expense");
+  const [transactionCategory, setTransactionCategory] =
+    useState<string>("Select Category");
+
+  const now = new Date();
+  const defaultTime = {
+    hours: now.getHours(),
+    minutes: now.getMinutes(),
+  };
+
+  const [androidDate, setAndroidDate] = useState<Date>(new Date());
+  const [androidTime, setAndroidTime] = useState<{
+    hours: number;
+    minutes: number;
+  }>(defaultTime);
+
+  const [finalDateTime, setFinalDateTime] = useState<Date>(new Date());
 
   const disableButton =
     amount === "" || selectedAccountId === "" ? true : false;
+
+  function addHoursAndMinutes(date: Date, hours: number, minutes: number) {
+    const newDate = new Date(date.getTime());
+    newDate.setHours(date.getHours() + hours);
+    newDate.setMinutes(date.getMinutes() + minutes);
+    return newDate;
+  }
 
   const handleAddTransaction = (): void => {
     let finalAmount = 0;
@@ -62,6 +84,9 @@ const AddTrasactionScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
         reduceBalance({
           id: selectedAccountId,
           amount: finalAmount,
+          transaction: {
+            // to do
+          },
         })
       );
       dispatch(
@@ -101,13 +126,23 @@ const AddTrasactionScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
     }
   }, [transferAccountId]);
 
+  const onAndroidDateChange = (date?: Date) => {
+    if (date) {
+      setAndroidDate(date);
+    }
+  };
+
+  const onAndroidTimeChange = (params: { hours: number; minutes: number }) => {
+    setAndroidTime(params);
+  };
+
+  const onIosDateChange = (date: Date) => {
+    setFinalDateTime(date);
+  };
+
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      keyboardVerticalOffset={headerHeight}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
-      <Pressable style={styles.innerContainer} onPress={Keyboard.dismiss}>
+    <Pressable style={styles.container} onPress={Keyboard.dismiss}>
+      <View style={styles.segmentedButtonsContainer}>
         <SegmentedButtons
           value={transactionType}
           onValueChange={setTransactionType}
@@ -123,8 +158,10 @@ const AddTrasactionScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
             { value: "transfer", label: "Transfer" },
           ]}
         />
+      </View>
+      <View style={styles.inputContainer}>
         <TextInput
-          autoFocus={true}
+          autoFocus={amount === "" ? true : false}
           label={
             transactionType === "transfer"
               ? "INR"
@@ -138,57 +175,71 @@ const AddTrasactionScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
           onChangeText={(text) => setAmount(text)}
           keyboardAppearance="dark"
         />
-        <View>
+      </View>
+      <View style={styles.selectionContainer}>
+        <SelectItems
+          hasNestedItems={true}
+          onPress={() =>
+            navigation.navigate("SelectItem", {
+              title: "Select Account",
+              screenNumber: 0,
+              itemIcon: "piggy-bank",
+              items: unselectedAccounts,
+              onSelect: (selectedItem: Record<string, any>) => {
+                dispatch(updateSelectedAccountId(selectedItem.id));
+              },
+            })
+          }
+          title="Account"
+          selectedItemName={selectedAccountName}
+          itemName="Select account"
+        />
+        {transactionType === "transfer" && (
           <SelectItems
             hasNestedItems={true}
             onPress={() =>
               navigation.navigate("SelectItem", {
                 title: "Select Account",
-                items: unselectedAccounts,
-                onSelect: (selectedItemId: Record<string, any>) => {
-                  console.log(selectedItemId);
+                screenNumber: 0,
+                itemIcon: "piggy-bank",
+                items: unselectedTransferAccounts,
+                onSelect: (selectedItem: Record<string, any>) => {
+                  dispatch(updateTransferAccountId(selectedItem.id));
                 },
               })
             }
-            title="Account"
-            selectedItemName={selectedAccountName}
+            title="To account"
+            selectedItemName={transferAccountName}
             itemName="Select account"
           />
-          {transactionType === "transfer" && (
-            <SelectItems
-              hasNestedItems={true}
-              onPress={() =>
-                navigation.navigate("SelectItem", {
-                  title: "Select Account",
-                  items: unselectedTransferAccounts,
-                  onSelect: (selectedItemId: Record<string, any>) => {
-                    console.log(selectedItemId);
-                  },
-                })
-              }
-              title="To account"
-              selectedItemName={transferAccountName}
-              itemName="Select account"
-            />
-          )}
-          {transactionType !== "transfer" && (
-            <SelectItems
-              hasNestedItems={true}
-              onPress={() =>
-                navigation.navigate("SelectItem", {
-                  type: "category",
-                  title: "Select Category",
-                  onSelect: (selectedItemId: Record<string, any>) => {
-                    console.log(selectedItemId);
-                  },
-                })
-              }
-              title="Category"
-              // selectedItemName={accounts[transferAccountId]?.name}
-              itemName="Select Category"
-            />
-          )}
-        </View>
+        )}
+        {transactionType !== "transfer" && (
+          <SelectItems
+            hasNestedItems={true}
+            onPress={() => {
+              navigation.navigate("SelectItem", {
+                title: "Select Category",
+                screenNumber: 0,
+                itemIcon: "food",
+                items: transactionCategories,
+                onSelect: (selectedItem: Record<string, any>) => {
+                  setTransactionCategory(selectedItem.name);
+                },
+              });
+            }}
+            title="Category"
+            itemName={transactionCategory}
+          />
+        )}
+        <DateSelector
+          onIosChange={onIosDateChange}
+          onAndroidDateChange={onAndroidDateChange}
+          onAndroidTimeChange={onAndroidTimeChange}
+          androidDate={androidDate}
+          androidTime={androidTime}
+        />
+      </View>
+      <View style={styles.addTransactionButtonContainer}>
         <Button
           disabled={disableButton}
           mode="contained"
@@ -196,24 +247,33 @@ const AddTrasactionScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
         >
           Add Transaction
         </Button>
-      </Pressable>
-    </KeyboardAvoidingView>
+      </View>
+    </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    height: "100%",
-  },
-  innerContainer: {
     paddingHorizontal: 30,
     paddingTop: 30,
     paddingBottom: Platform.OS === "ios" ? 40 : 10,
     display: "flex",
     width: "100%",
     height: "100%",
-    justifyContent: "space-between",
+  },
+  segmentedButtonsContainer: {
+    marginVertical: 20,
+  },
+  inputContainer: {
+    marginVertical: 20,
+  },
+  selectionContainer: {
+    marginVertical: 20,
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+  addTransactionButtonContainer: {
+    marginVertical: 20,
   },
 });
 

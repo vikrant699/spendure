@@ -15,8 +15,9 @@ interface Props {
   selectedItemName?: string;
   icon?: ReactNode | string;
   hasNestedItems?: boolean;
-  itemName: string;
+  itemName?: string;
   mainContainerStyle?: StyleProp<ViewStyle>;
+  titleContainerStyle?: StyleProp<ViewStyle>;
   selectionDetailsContainerStyle?: StyleProp<ViewStyle>;
   titleTextStyle?: StyleProp<TextStyle>;
   selectedItemTextStyle?: StyleProp<TextStyle>;
@@ -30,6 +31,7 @@ const SelectItems: FC<Props> = ({
   hasNestedItems = false,
   itemName,
   mainContainerStyle,
+  titleContainerStyle,
   selectionDetailsContainerStyle,
   titleTextStyle,
   selectedItemTextStyle,
@@ -37,10 +39,12 @@ const SelectItems: FC<Props> = ({
   return (
     <TouchableRipple onPress={onPress}>
       <Surface style={[styles.mainContainer, mainContainerStyle]}>
-        {typeof icon === "string" ? <Text>{icon}</Text> : icon}
-        <Text style={titleTextStyle} variant="titleMedium">
-          {title}
-        </Text>
+        <View style={[styles.titleContainer, titleContainerStyle]}>
+          {typeof icon === "string" ? <Text>{icon}</Text> : icon}
+          <Text style={titleTextStyle} variant="titleMedium">
+            {title}
+          </Text>
+        </View>
         {hasNestedItems && (
           <View
             style={[
@@ -52,7 +56,7 @@ const SelectItems: FC<Props> = ({
               style={[styles.selectedItemText, selectedItemTextStyle]}
               variant="labelLarge"
             >
-              {selectedItemName || itemName}
+              {selectedItemName || itemName || null}
             </Text>
             <MaterialIcon
               name="chevron-right"
@@ -73,7 +77,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     padding: 20,
-    borderRadius: 10,
+  },
+  titleContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
   },
   selectionDetailsContainer: {
     display: "flex",

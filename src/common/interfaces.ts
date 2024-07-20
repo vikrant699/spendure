@@ -13,13 +13,19 @@ export interface AppState {
 }
 
 // State in accountsSlice
+
+export interface Transaction {
+  id: string;
+  date: Date;
+  amount: number;
+  category: string;
+  operation: string;
+  toAccount?: string;
+  fromAccount?: string;
+}
 export interface AccountState {
   id: string;
   name: string;
   accountBalance: number;
-  transactions: {
-    title: string;
-    notes: string;
-    date: Date;
-  }[];
+  transactions: Transaction[];
 }

@@ -2,7 +2,6 @@ import { FC } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import BottomTabNavigator from "./BottomTabNavigator";
 import AddTransactionStack from "./AddTransactionStack";
-import TransactionsScreen from "../screens/AddTransaction/TransactionsScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import AddAccountScreen from "../screens/AddAccountScreen";
 
@@ -18,11 +17,11 @@ const RootStack: FC = () => {
     >
       <Stack.Group>
         <Stack.Screen name="BottomTabs" component={BottomTabNavigator} />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Transactions"
           component={TransactionsScreen}
           options={{ headerShown: true }}
-        />
+        /> */}
         <Stack.Screen
           name="Settings"
           component={SettingsScreen}

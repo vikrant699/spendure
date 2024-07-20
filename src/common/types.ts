@@ -12,6 +12,8 @@ export type AddTransactionStackParamList = {
   TransactionCategory: undefined;
   SelectItem: {
     title?: string;
+    screenNumber: number;
+    itemIcon?: string;
     items: AccountState[];
     onSelect: (payload: Record<string, any>) => void;
   };

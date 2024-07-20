@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AccountState } from "../common/interfaces";
+import { AccountState, Transaction } from "../common/interfaces";
 
 const initialAccountStatus: AccountState[] = [
   {
@@ -22,12 +22,17 @@ export const accountsSlice = createSlice({
   reducers: {
     reduceBalance(
       state,
-      action: PayloadAction<{ id: string; amount: number }>
+      action: PayloadAction<{
+        id: string;
+        amount: number;
+        transaction: Transaction;
+      }>
     ) {
-      const { id, amount } = action.payload;
+      const { id, amount, transaction } = action.payload;
       const accountToUpdate = state.find((acc) => acc.id === id);
       if (accountToUpdate) {
         accountToUpdate.accountBalance -= amount;
+        accountToUpdate.transactions.push(transaction);
       }
     },
     addBalance(state, action: PayloadAction<{ id: string; amount: number }>) {
