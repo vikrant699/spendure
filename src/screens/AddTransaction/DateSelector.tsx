@@ -56,7 +56,6 @@ const DateSelector: FC<Props> = ({
   });
 
   // Android
-
   const displayDate = androidDate.toLocaleDateString("en-US", {
     day: "2-digit",
     month: "long",
@@ -89,7 +88,7 @@ const DateSelector: FC<Props> = ({
 
   const onTimeConfirm = (params: { hours: number; minutes: number }) => {
     onAndroidTimeChange(params);
-    console.log(params);
+    setTimeModalVisible(false);
   };
 
   // iOS

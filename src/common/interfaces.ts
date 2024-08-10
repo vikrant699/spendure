@@ -1,9 +1,8 @@
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ParamListBase } from "@react-navigation/routers";
+import { NavigationType } from "./types";
 
 // For components with only navigation prop
 export interface NavigationOnlyProps {
-  navigation: NativeStackNavigationProp<ParamListBase>;
+  navigation: NavigationType;
 }
 
 // State in appStateSlice
@@ -13,7 +12,6 @@ export interface AppState {
 }
 
 // State in accountsSlice
-
 export interface Transaction {
   id: string;
   date: Date;
@@ -28,4 +26,10 @@ export interface AccountState {
   name: string;
   accountBalance: number;
   transactions: Transaction[];
+}
+
+// State in authSlice
+export interface AuthState {
+  loggedIn: boolean;
+  userId: string | null | undefined;
 }

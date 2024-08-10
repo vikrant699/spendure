@@ -1,10 +1,12 @@
 import { FC, useState, useEffect } from "react";
-import { View, StyleSheet, LogBox } from "react-native";
+import { View, ScrollView, StyleSheet, LogBox } from "react-native";
 import { MD3DarkTheme } from "react-native-paper";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ParamListBase } from "@react-navigation/routers";
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import iconsMap from "react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json";
 import { AddTransactionStackParamList } from "../../types";
 import SelectItems from "../../components/SelectItems";
 
@@ -25,6 +27,13 @@ const SelectItemsScreen: FC<Props> = ({ navigation, route }) => {
   LogBox.ignoreLogs([
     "Non-serializable values were found in the navigation state.",
   ]);
+
+  const hasIcon = (iconName?: string): boolean => {
+    if (iconName) {
+      return Object.prototype.hasOwnProperty.call(iconsMap, iconName);
+    }
+    return false;
+  };
 
   const { items, onSelect, screenNumber, itemIcon } = route.params;
   const typedItems = items as Item[];
@@ -48,7 +57,10 @@ const SelectItemsScreen: FC<Props> = ({ navigation, route }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.contentContainerStyle}
+    >
       <View style={styles.selectionContainer}>
         {typedItems.map((item) => (
           <SelectItems
@@ -58,24 +70,35 @@ const SelectItemsScreen: FC<Props> = ({ navigation, route }) => {
               item?.subCategories && item?.subCategories.length > 0
             }
             icon={
-              <MaterialCommunityIcon
-                name={item.icon || itemIcon}
-                size={30}
-                color={MD3DarkTheme.colors.primary}
-              />
+              hasIcon(item.icon) ? (
+                <MaterialCommunityIcon
+                  name={item.icon || itemIcon}
+                  size={30}
+                  color={item.color || MD3DarkTheme.colors.primary}
+                />
+              ) : (
+                <MaterialIcon
+                  name={item.icon || itemIcon}
+                  size={30}
+                  color={item.color || MD3DarkTheme.colors.primary}
+                />
+              )
             }
             onPress={() => handleSelection(item)}
             title={item.name}
           />
         ))}
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+  },
+  contentContainerStyle: {
+    paddingBottom: 50,
   },
   selectionContainer: { borderRadius: 10, overflow: "hidden" },
   itemTitleTextStyle: {

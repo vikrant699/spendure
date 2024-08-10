@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AppState } from "../common/interfaces";
+import { AppState } from "../../common/interfaces";
 
 const initialAppState: AppState = {
   selectedAccountId: "",

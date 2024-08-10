@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { useAppSelector } from "../../store/hooks";
 import { NavigationOnlyProps } from "../../common/interfaces";
 import Card from "../../common/components/Card";
-import { width } from "../../utils/constants";
+import { width } from "../../common/constants";
 
 const HomeScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
   const accounts = useAppSelector((state) => state.accounts);

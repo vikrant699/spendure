@@ -1,4 +1,8 @@
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { ParamListBase } from "@react-navigation/routers";
 import { AccountState } from "./interfaces";
+
+export type NavigationType = NativeStackNavigationProp<ParamListBase>;
 
 export type RootStackParamList = {
   BottomTabs: undefined;

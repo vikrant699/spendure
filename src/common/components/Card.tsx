@@ -2,7 +2,7 @@ import { FC } from "react";
 import { StyleSheet, View } from "react-native";
 import { Surface, Text, TouchableRipple } from "react-native-paper";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
-import { width, height } from "../../utils/constants";
+import { width, height } from "../constants";
 
 interface Props {
   onPress: () => void;

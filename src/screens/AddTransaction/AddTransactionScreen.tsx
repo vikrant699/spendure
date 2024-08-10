@@ -1,12 +1,5 @@
 import { FC, useState, useEffect } from "react";
-import {
-  KeyboardAvoidingView,
-  StyleSheet,
-  Keyboard,
-  Pressable,
-  Platform,
-  View,
-} from "react-native";
+import { StyleSheet, Keyboard, Pressable, Platform, View } from "react-native";
 import { TextInput, Button, SegmentedButtons } from "react-native-paper";
 import DateSelector from "./DateSelector";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -17,6 +10,7 @@ import {
   updateSelectedAccountId,
   updateTransferAccountId,
 } from "../../store/store";
+8;
 import SelectItems from "../../common/components/SelectItems";
 import { transactionCategories } from "../../common/constants";
 

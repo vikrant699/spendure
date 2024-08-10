@@ -6,6 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
 import store from "./src/store/store";
 import RootStack from "./src/navigators/RootStackNavigator";
+import AuthStack from "./src/navigators/AuthStack";
 interface DefaultThemeColors extends MD3Colors {
   card: string;
   text: string;
@@ -33,7 +34,8 @@ const App: FC = () => {
     <Provider store={store}>
       <PaperProvider theme={theme}>
         <NavigationContainer theme={theme}>
-          <RootStack />
+          {/* <RootStack /> */}
+          <AuthStack />
           <StatusBar style="light" />
         </NavigationContainer>
       </PaperProvider>
