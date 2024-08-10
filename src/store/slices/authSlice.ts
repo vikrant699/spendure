@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Alert } from "react-native";
 import { makeRedirectUri } from "expo-auth-session";
-import * as QueryParams from "expo-auth-session/build/QueryParams";
 import { supabase } from "../../common/supabase";
 import { AuthState } from "../../common/interfaces";
 import { NavigationType } from "../../common/types";
@@ -19,7 +18,10 @@ const initialState: AuthState = {
 // Async Thunks
 export const signInWithEmail = createAsyncThunk(
   "auth/signInWithEmail",
-  async (email: string, { rejectWithValue }) => {
+  async (
+    { email, navigation }: { email: string; navigation: NavigationType },
+    { rejectWithValue }
+  ) => {
     if (!validateEmail(email)) {
       Alert.alert("Invalid email format");
       return rejectWithValue("Invalid email format");
@@ -34,6 +36,7 @@ export const signInWithEmail = createAsyncThunk(
         },
       });
       if (error) throw error;
+      navigation.navigate("LinkConfirmation");
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
@@ -59,30 +62,22 @@ export const signOut = createAsyncThunk(
 
 export const createSessionFromUrl = createAsyncThunk(
   "auth/createSessionFromUrl",
-  async (
-    { url, navigation }: { url: string; navigation: NavigationType },
-    { rejectWithValue }
-  ) => {
+  async (url: string, { rejectWithValue }) => {
     try {
-      const { params, errorCode } = QueryParams.getQueryParams(url);
+      const parsedUrl = new URL(url);
+      const params = new URLSearchParams(parsedUrl.hash.substring(1));
+      const access_token = params.get("access_token") as string;
+      const refresh_token = params.get("refresh_token") as string;
 
-      if (errorCode) throw new Error(errorCode);
-
-      const { access_token, refresh_token } = params;
-      if (!access_token) return;
+      if (!access_token || !refresh_token) {
+        throw new Error("Missing access_token or refresh_token");
+      }
 
       const { data, error } = await supabase.auth.setSession({
         access_token,
         refresh_token,
       });
-
-      if (navigation.canGoBack()) {
-        navigation.goBack();
-      } else {
-        navigation.navigate("Home");
-      }
       if (error) throw error;
-
       return data.session;
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -103,7 +98,7 @@ export const authSlice = createSlice({
       })
       .addCase(createSessionFromUrl.fulfilled, (state, action) => {
         state.userId = action.payload?.user.id;
-        state.loggedIn = false;
+        state.loggedIn = true;
       });
   },
 });
