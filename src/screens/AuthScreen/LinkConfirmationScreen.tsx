@@ -9,21 +9,21 @@ import {
 import * as Linking from "expo-linking";
 import * as IntentLauncher from "expo-intent-launcher";
 
-import { useAppDispatch } from "../../store/hooks";
 import { NavigationOnlyProps } from "../../common/interfaces";
 import { useAppSelector } from "../../store/hooks";
-import { createSessionFromUrl } from "../../store/slices/authSlice";
+import { useCreateSessionFromUrlMutation } from "../../store/apis/authApis";
 
 const LinkConfirmation: FC<NavigationOnlyProps> = ({ navigation }) => {
   const loggedIn = useAppSelector((state) => state.auth.loggedIn);
-  const dispatch = useAppDispatch();
+  const [createSessionFromUrl, { isLoading, error }] =
+    useCreateSessionFromUrlMutation();
   const url = Linking.useURL();
 
   useEffect(() => {
-    if (url) {
-      dispatch(createSessionFromUrl(url));
+    if (url && !isLoading && !error) {
+      createSessionFromUrl(url);
     }
-  }, [dispatch, url]);
+  }, [url, isLoading, error]);
 
   useEffect(() => {
     if (loggedIn) {

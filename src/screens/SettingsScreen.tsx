@@ -4,26 +4,22 @@ import { View, StyleSheet } from "react-native";
 
 import { NavigationOnlyProps } from "../common/interfaces";
 import { useAppDispatch } from "../store/hooks";
-import { signOut } from "../store/slices/authSlice";
+import { useSignOutMutation } from "../store/apis/authApis";
 
 const Settings: FC<NavigationOnlyProps> = ({ navigation }) => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
   const dispatch = useAppDispatch();
+  const [signOut, { isLoading, error }] = useSignOutMutation();
 
   const handleSignOut = async () => {
-    setLoading(true);
-    setError(null);
-    const resultAction = await dispatch(signOut(navigation));
-    if (signOut.rejected.match(resultAction)) {
-      setError(resultAction.payload as string);
+    const result = await signOut(navigation);
+    if ("data" in result) {
+      navigation.navigate("Home");
     }
-    setLoading(false);
   };
 
   return (
     <View style={[styles.verticallySpaced, styles.mt20]}>
-      <Button disabled={loading} onPress={handleSignOut}>
+      <Button disabled={isLoading} onPress={handleSignOut}>
         Sign Out
       </Button>
     </View>

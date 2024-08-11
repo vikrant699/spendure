@@ -1,26 +1,21 @@
 import { FC, useState } from "react";
 import { Button, TextInput } from "react-native-paper";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 
 import AppleSignIn from "./AppleSignIn";
 import { NavigationOnlyProps } from "../../common/interfaces";
-import { useAppDispatch } from "../../store/hooks";
-import { signInWithEmail } from "../../store/slices/authSlice";
+import { useSignInWithEmailMutation } from "../../store/apis/authApis";
 
 const Auth: FC<NavigationOnlyProps> = ({ navigation }) => {
   const [email, setEmail] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const dispatch = useAppDispatch();
+
+  const [signInWithEmail, { isLoading, error }] = useSignInWithEmailMutation();
 
   const handleSignIn = async () => {
-    setLoading(true);
-    setError(null);
-    const resultAction = await dispatch(signInWithEmail({ email, navigation }));
-    if (signInWithEmail.rejected.match(resultAction)) {
-      setError(resultAction.payload as string);
+    const result = await signInWithEmail({ email, navigation });
+    if ("data" in result) {
+      navigation.navigate("LinkConfirmation");
     }
-    setLoading(false);
   };
 
   return (
@@ -34,13 +29,14 @@ const Auth: FC<NavigationOnlyProps> = ({ navigation }) => {
           autoCapitalize={"none"}
         />
       </View>
+      {error && <Text style={{ color: "red" }}>{(error as any).data}</Text>}
       <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Button disabled={loading} onPress={handleSignIn}>
+        <Button disabled={isLoading} onPress={handleSignIn}>
           Sign In
         </Button>
       </View>
       <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Button disabled={loading} onPress={() => navigation.replace("Home")}>
+        <Button disabled={isLoading} onPress={() => navigation.replace("Home")}>
           Skip
         </Button>
       </View>

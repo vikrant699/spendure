@@ -21,6 +21,7 @@ export interface Transaction {
   toAccount?: string;
   fromAccount?: string;
 }
+
 export interface AccountState {
   id: string;
   name: string;

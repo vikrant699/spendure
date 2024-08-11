@@ -3,11 +3,12 @@ import * as AppleAuthentication from "expo-apple-authentication";
 import { Platform, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useAppDispatch } from "../../store/hooks";
-import { appleSignIn } from "../../store/slices/authSlice";
 import { NavigationType } from "../../common/types";
+import { useAppleSignInMutation } from "../../store/apis/authApis";
 
 const AppleSignIn: FC = () => {
   const navigation: NavigationType = useNavigation();
+  const [appleSignIn, { isLoading, error }] = useAppleSignInMutation();
   const dispatch = useAppDispatch();
 
   return (
@@ -18,8 +19,8 @@ const AppleSignIn: FC = () => {
           buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
           cornerRadius={5}
           style={styles.button}
-          onPress={() => {
-            dispatch(appleSignIn(navigation));
+          onPress={async () => {
+            await appleSignIn(navigation);
           }}
         />
       ) : (
