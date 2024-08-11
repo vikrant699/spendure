@@ -1,12 +1,11 @@
 import { FC, useState } from "react";
 import { Button, TextInput } from "react-native-paper";
 import { View, StyleSheet } from "react-native";
-import * as Linking from "expo-linking";
 
 import AppleSignIn from "./AppleSignIn";
 import { NavigationOnlyProps } from "../../common/interfaces";
 import { useAppDispatch } from "../../store/hooks";
-import { signInWithEmail, signOut } from "../../store/slices/authSlice";
+import { signInWithEmail } from "../../store/slices/authSlice";
 
 const Auth: FC<NavigationOnlyProps> = ({ navigation }) => {
   const [email, setEmail] = useState<string>("");
@@ -19,16 +18,6 @@ const Auth: FC<NavigationOnlyProps> = ({ navigation }) => {
     setError(null);
     const resultAction = await dispatch(signInWithEmail({ email, navigation }));
     if (signInWithEmail.rejected.match(resultAction)) {
-      setError(resultAction.payload as string);
-    }
-    setLoading(false);
-  };
-
-  const handleSignOut = async () => {
-    setLoading(true);
-    setError(null);
-    const resultAction = await dispatch(signOut(navigation));
-    if (signOut.rejected.match(resultAction)) {
       setError(resultAction.payload as string);
     }
     setLoading(false);
@@ -51,8 +40,8 @@ const Auth: FC<NavigationOnlyProps> = ({ navigation }) => {
         </Button>
       </View>
       <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Button disabled={loading} onPress={handleSignOut}>
-          Sign Out
+        <Button disabled={loading} onPress={() => navigation.replace("Home")}>
+          Skip
         </Button>
       </View>
       <AppleSignIn />

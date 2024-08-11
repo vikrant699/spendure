@@ -27,7 +27,7 @@ const LinkConfirmation: FC<NavigationOnlyProps> = ({ navigation }) => {
 
   useEffect(() => {
     if (loggedIn) {
-      navigation.navigate("Home");
+      navigation.replace("Home");
     }
   }, [loggedIn, navigation]);
 

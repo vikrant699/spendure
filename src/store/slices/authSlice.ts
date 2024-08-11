@@ -52,7 +52,7 @@ export const signOut = createAsyncThunk(
       if (navigation.canGoBack()) {
         navigation.goBack();
       } else {
-        navigation.navigate("Home");
+        navigation.replace("Home");
       }
       if (error) throw error;
     } catch (error: any) {
@@ -106,7 +106,7 @@ export const appleSignIn = createAsyncThunk(
         });
         console.log(JSON.stringify({ error, user }, null, 2));
         if (!error) {
-          navigation.navigate("Home");
+          navigation.replace("Home");
           return user;
         }
       } else {
