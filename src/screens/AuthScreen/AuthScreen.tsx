@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useState } from "react";
 import { Button, TextInput } from "react-native-paper";
 import { View, StyleSheet } from "react-native";
 import * as Linking from "expo-linking";
@@ -6,24 +6,13 @@ import * as Linking from "expo-linking";
 import AppleSignIn from "./AppleSignIn";
 import { NavigationOnlyProps } from "../../common/interfaces";
 import { useAppDispatch } from "../../store/hooks";
-import {
-  signInWithEmail,
-  signOut,
-  createSessionFromUrl,
-} from "../../store/slices/authSlice";
+import { signInWithEmail, signOut } from "../../store/slices/authSlice";
 
 const Auth: FC<NavigationOnlyProps> = ({ navigation }) => {
   const [email, setEmail] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const dispatch = useAppDispatch();
-  const url = Linking.useURL();
-
-  useEffect(() => {
-    if (url) {
-      dispatch(createSessionFromUrl(url));
-    }
-  }, [dispatch]);
 
   const handleSignIn = async () => {
     setLoading(true);

@@ -1,13 +1,29 @@
 import { FC, useEffect } from "react";
 import { Text, Button } from "react-native-paper";
-import { Linking, Platform, View, StyleSheet } from "react-native";
+import {
+  Linking as AppLinking,
+  Platform,
+  View,
+  StyleSheet,
+} from "react-native";
+import * as Linking from "expo-linking";
 import * as IntentLauncher from "expo-intent-launcher";
 
+import { useAppDispatch } from "../../store/hooks";
 import { NavigationOnlyProps } from "../../common/interfaces";
 import { useAppSelector } from "../../store/hooks";
+import { createSessionFromUrl } from "../../store/slices/authSlice";
 
 const LinkConfirmation: FC<NavigationOnlyProps> = ({ navigation }) => {
   const loggedIn = useAppSelector((state) => state.auth.loggedIn);
+  const dispatch = useAppDispatch();
+  const url = Linking.useURL();
+
+  useEffect(() => {
+    if (url) {
+      dispatch(createSessionFromUrl(url));
+    }
+  }, [dispatch, url]);
 
   useEffect(() => {
     if (loggedIn) {
@@ -23,7 +39,7 @@ const LinkConfirmation: FC<NavigationOnlyProps> = ({ navigation }) => {
       };
       IntentLauncher.startActivityAsync(activityAction, intentParams);
     } else if (Platform.OS === "ios") {
-      Linking.openURL("message://");
+      AppLinking.openURL("message://");
     }
   };
 
