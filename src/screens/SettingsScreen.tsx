@@ -11,10 +11,10 @@ const Settings: FC<NavigationOnlyProps> = ({ navigation }) => {
   const [signOut, { isLoading, error }] = useSignOutMutation();
 
   const handleSignOut = async () => {
-    const result = await signOut(navigation);
-    if ("data" in result) {
-      navigation.navigate("Home");
-    }
+    await signOut();
+    // if ("data" in result) {
+    //   navigation.navigate("Home");
+    // }
   };
 
   return (

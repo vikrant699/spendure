@@ -10,26 +10,31 @@ import * as Linking from "expo-linking";
 import * as IntentLauncher from "expo-intent-launcher";
 
 import { NavigationOnlyProps } from "../../common/interfaces";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch } from "../../store/hooks";
+import { login } from "../../store/slices/authSlice";
 import { useCreateSessionFromUrlMutation } from "../../store/apis/authApis";
 
 const LinkConfirmation: FC<NavigationOnlyProps> = ({ navigation }) => {
-  const loggedIn = useAppSelector((state) => state.auth.loggedIn);
+  const dispatch = useAppDispatch();
   const [createSessionFromUrl, { isLoading, error }] =
     useCreateSessionFromUrlMutation();
   const url = Linking.useURL();
 
   useEffect(() => {
-    if (url && !isLoading && !error) {
-      createSessionFromUrl(url);
-    }
-  }, [url, isLoading, error]);
+    const verifyEmail = async () => {
+      if (url) {
+        const result = await createSessionFromUrl(url);
+        console.log(result);
+        console.log(url);
+        if (!result.error) {
+          dispatch(login(result.data));
+          navigation.replace("Home");
+        }
+      }
+    };
 
-  useEffect(() => {
-    if (loggedIn) {
-      navigation.replace("Home");
-    }
-  }, [loggedIn, navigation]);
+    verifyEmail();
+  }, [url]);
 
   const openEmailApp = () => {
     if (Platform.OS === "android") {

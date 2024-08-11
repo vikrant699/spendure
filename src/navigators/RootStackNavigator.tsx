@@ -1,9 +1,8 @@
 import { FC } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import BottomTabNavigator from "./BottomTabNavigator";
-import AddTransactionStack from "./AddTransactionStack";
-import SettingsScreen from "../screens/SettingsScreen";
-import AddAccountScreen from "../screens/AddAccountScreen";
+import AuthStack from "./AuthStack";
+import HomeStack from "./HomeStack";
+import SplashScreen from "../screens/SplashScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -13,35 +12,11 @@ const RootStack: FC = () => {
       screenOptions={({ navigation, route }) => ({
         headerShown: false,
       })}
-      initialRouteName="BottomTabs"
+      initialRouteName="SplashScreen"
     >
-      <Stack.Group>
-        <Stack.Screen name="BottomTabs" component={BottomTabNavigator} />
-        {/* <Stack.Screen
-          name="Transactions"
-          component={TransactionsScreen}
-          options={{ headerShown: true }}
-        /> */}
-        <Stack.Screen
-          name="Settings"
-          component={SettingsScreen}
-          options={{ headerShown: true }}
-        />
-      </Stack.Group>
-      <Stack.Group
-        screenOptions={{
-          presentation: "modal",
-          animation: "slide_from_bottom",
-          headerShown: true,
-        }}
-      >
-        <Stack.Screen
-          name="AddTransactionStack"
-          component={AddTransactionStack}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="AddAccountScreen" component={AddAccountScreen} />
-      </Stack.Group>
+      <Stack.Screen name="AuthStack" component={AuthStack} />
+      <Stack.Screen name="HomeStack" component={HomeStack} />
+      <Stack.Screen name="SplashScreen" component={SplashScreen} />
     </Stack.Navigator>
   );
 };

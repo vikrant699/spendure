@@ -12,7 +12,7 @@ const Auth: FC<NavigationOnlyProps> = ({ navigation }) => {
   const [signInWithEmail, { isLoading, error }] = useSignInWithEmailMutation();
 
   const handleSignIn = async () => {
-    const result = await signInWithEmail({ email, navigation });
+    const result = await signInWithEmail(email);
     if ("data" in result) {
       navigation.navigate("LinkConfirmation");
     }

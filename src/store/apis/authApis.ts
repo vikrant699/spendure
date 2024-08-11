@@ -3,31 +3,19 @@ import { makeRedirectUri } from "expo-auth-session";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { supabase } from "../../common/supabase";
 import { NavigationType } from "../../common/types";
-import { updateAuthDetails } from "../slices/authSlice";
-import { useAppDispatch } from "../hooks";
+import { login, logout } from "../slices/authSlice";
 
 const validateEmail = (email: string): boolean => {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailPattern.test(email);
 };
 
-interface SignInWithEmailParams {
-  email: string;
-  navigation: NavigationType;
-}
-
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery(),
   endpoints: (build) => ({
-    signInWithEmail: build.mutation<null, SignInWithEmailParams>({
-      queryFn: async ({
-        email,
-        navigation,
-      }: {
-        email: string;
-        navigation: NavigationType;
-      }) => {
+    signInWithEmail: build.mutation<null, string>({
+      queryFn: async (email: string) => {
         if (!validateEmail(email)) {
           return { error: { status: 400, data: "Invalid email format" } };
         }
@@ -41,7 +29,6 @@ export const authApi = createApi({
             },
           });
           if (error) throw error;
-          navigation.navigate("LinkConfirmation");
           return { data: null };
         } catch (error: any) {
           return { error: { status: 500, data: error.message } };
@@ -49,16 +36,11 @@ export const authApi = createApi({
       },
     }),
 
-    signOut: build.mutation<null, NavigationType>({
-      queryFn: async (navigation: NavigationType) => {
+    signOut: build.mutation<null, void>({
+      queryFn: async () => {
         try {
           const { error } = await supabase.auth.signOut();
           if (error) throw error;
-          // if (navigation.canGoBack()) {
-          //   navigation.goBack();
-          // } else {
-          //   navigation.replace("Home");
-          // }
           return { data: null };
         } catch (error: any) {
           return { error: { status: 500, data: error.message } };
@@ -68,7 +50,6 @@ export const authApi = createApi({
 
     createSessionFromUrl: build.mutation<any, string>({
       queryFn: async (url: string) => {
-        const dispatch = useAppDispatch();
         try {
           const parsedUrl = new URL(url);
           const params = new URLSearchParams(parsedUrl.hash.substring(1));
@@ -84,16 +65,15 @@ export const authApi = createApi({
             refresh_token,
           });
           if (error) throw error;
-          dispatch(updateAuthDetails(data.session?.user.id));
-          return { data: null };
+          return { data: data.session?.user.id };
         } catch (error: any) {
           return { error: { status: 500, data: error.message } };
         }
       },
     }),
 
-    appleSignIn: build.mutation<any, NavigationType>({
-      queryFn: async (navigation: NavigationType) => {
+    appleSignIn: build.mutation<any, void>({
+      queryFn: async () => {
         try {
           const credential = await AppleAuthentication.signInAsync({
             requestedScopes: [
@@ -112,8 +92,7 @@ export const authApi = createApi({
             });
 
             if (error) throw error;
-            navigation.replace("Home");
-            return { data: user };
+            return { data: user?.id };
           } else {
             throw new Error("No identityToken.");
           }

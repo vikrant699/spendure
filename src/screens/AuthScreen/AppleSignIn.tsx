@@ -3,6 +3,7 @@ import * as AppleAuthentication from "expo-apple-authentication";
 import { Platform, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useAppDispatch } from "../../store/hooks";
+import { login } from "../../store/slices/authSlice";
 import { NavigationType } from "../../common/types";
 import { useAppleSignInMutation } from "../../store/apis/authApis";
 
@@ -20,7 +21,9 @@ const AppleSignIn: FC = () => {
           cornerRadius={5}
           style={styles.button}
           onPress={async () => {
-            await appleSignIn(navigation);
+            const result = await appleSignIn();
+            dispatch(login(result.data));
+            navigation.replace("Home");
           }}
         />
       ) : (

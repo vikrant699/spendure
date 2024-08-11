@@ -11,14 +11,15 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    updateAuthDetails: (
-      state,
-      action: PayloadAction<string | null | undefined>
-    ) => {
+    login: (state, action: PayloadAction<string | null | undefined>) => {
       state.loggedIn = true;
       state.userId = action?.payload;
+    },
+    logout: (state) => {
+      state.loggedIn = false;
+      state.userId = null;
     },
   },
 });
 
-export const { updateAuthDetails } = authSlice.actions;
+export const { login, logout } = authSlice.actions;
