@@ -12,7 +12,15 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "plugins": ["expo-apple-authentication"],
+    "plugins": [
+      "expo-apple-authentication",
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps._some_id_here_"
+        }
+      ]
+    ],
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,

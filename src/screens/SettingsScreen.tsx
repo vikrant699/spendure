@@ -5,6 +5,7 @@ import { View, StyleSheet } from "react-native";
 import { NavigationOnlyProps } from "../common/interfaces";
 import { useAppDispatch } from "../store/hooks";
 import { useSignOutMutation } from "../store/apis/authApis";
+import { logout } from "../store/slices/authSlice";
 
 const Settings: FC<NavigationOnlyProps> = ({ navigation }) => {
   const dispatch = useAppDispatch();
@@ -12,6 +13,7 @@ const Settings: FC<NavigationOnlyProps> = ({ navigation }) => {
 
   const handleSignOut = async () => {
     await signOut();
+    dispatch(logout());
     // if ("data" in result) {
     //   navigation.navigate("Home");
     // }
