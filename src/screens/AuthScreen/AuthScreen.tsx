@@ -3,6 +3,7 @@ import { Button, TextInput } from "react-native-paper";
 import { View, StyleSheet, Text } from "react-native";
 
 import AppleSignIn from "./AppleSignIn";
+import GoogleSignIn from "./GoogleSignIn";
 import { NavigationOnlyProps } from "../../common/interfaces";
 import { useSignInWithEmailMutation } from "../../store/apis/authApis";
 
@@ -41,6 +42,7 @@ const Auth: FC<NavigationOnlyProps> = ({ navigation }) => {
         </Button>
       </View>
       <AppleSignIn />
+      <GoogleSignIn />
     </View>
   );
 };

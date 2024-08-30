@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Wallet",
-    "slug": "Wallet",
+    "name": "Spendure",
+    "slug": "spendure",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,21 +12,12 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "plugins": [
-      "expo-apple-authentication",
-      [
-        "@react-native-google-signin/google-signin",
-        {
-          "iosUrlScheme": "com.googleusercontent.apps._some_id_here_"
-        }
-      ]
-    ],
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "plugins": ["expo-apple-authentication"],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "usesAppleSignIn": true
+      "usesAppleSignIn": true,
+      "bundleIdentifier": "com.spendure.app"
     },
     "android": {
       "adaptiveIcon": {
@@ -37,6 +28,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f593ad4a-8ecb-4940-b9eb-835547f02dc7"
+      }
     }
   }
 }
