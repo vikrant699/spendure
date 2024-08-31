@@ -8,7 +8,6 @@ const GoogleSignIn: FC = () => {
   const [request, response, promptAsync] = Google.useAuthRequest({
     iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID,
     androidClientId: process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID,
-    clientId: process.env.EXPO_PUBLIC_GOOGLE_EXPO_CLIENT_ID,
     redirectUri: AuthSession.makeRedirectUri({ scheme: 'com.spendure.app' }),
   });
 
