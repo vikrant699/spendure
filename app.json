@@ -12,8 +12,12 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "plugins": ["expo-apple-authentication"],
-    "assetBundlePatterns": ["**/*"],
+    "plugins": [
+      "expo-apple-authentication"
+    ],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "usesAppleSignIn": true,
@@ -31,7 +35,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "f593ad4a-8ecb-4940-b9eb-835547f02dc7"
+        "projectId": "89e7e27f-9bc7-44d6-9278-dbd208d62aa8"
       }
     }
   }

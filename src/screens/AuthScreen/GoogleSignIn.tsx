@@ -2,20 +2,19 @@ import { FC, useEffect } from "react";
 import { Button } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
 import * as AuthSession from "expo-auth-session";
-import { supabase } from "../../common/supabase"; // Replace with your actual supabase client path
+import { supabase } from "../../common/supabase"
 
 const GoogleSignIn: FC = () => {
   const [request, response, promptAsync] = Google.useAuthRequest({
     iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID,
     androidClientId: process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID,
     clientId: process.env.EXPO_PUBLIC_GOOGLE_EXPO_CLIENT_ID,
-    redirectUri: AuthSession.makeRedirectUri(),
+    redirectUri: AuthSession.makeRedirectUri({ scheme: 'com.spendure.app' }),
   });
 
   useEffect(() => {
     if (response?.type === "success") {
       const { authentication } = response;
-      // Exchange the token for a session in Supabase
       signInWithGoogle(authentication?.accessToken);
     }
   }, [response]);
