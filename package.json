@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "android": "dotenv -e env.test.local expo start --android",
-    "ios": "dotenv -e env.test.local expo start --ios -c"
+    "android": "dotenv -e .env.test.local expo start --android",
+    "ios": "dotenv -e .env.test.local expo start --ios -c"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.23.1",

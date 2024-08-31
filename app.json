@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
-    "scheme": "spendure",
+    "scheme": "com.spendure.app",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

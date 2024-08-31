@@ -11,17 +11,13 @@ const GoogleSignIn: FC = () => {
     redirectUri: AuthSession.makeRedirectUri({ scheme: 'com.spendure.app' }),
   });
 
-  useEffect(() => {
-    if (response?.type === "success") {
-      const { authentication } = response;
-      signInWithGoogle(authentication?.accessToken);
-    }
-  }, [response]);
+  // console.log(response)
 
-  const signInWithGoogle = async (accessToken) => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+  const signInWithGoogle = async () => {
+    const { data, error } = await supabase.auth.signInWithIdToken({
       provider: "google",
-      accessToken: accessToken,
+      token: response.params.id_token,
+      access_token: response.params.access_token,
     });
 
     if (error) {
@@ -30,6 +26,12 @@ const GoogleSignIn: FC = () => {
       console.log("Logged in with Google", data);
     }
   };
+
+  useEffect(() => {
+    if (response?.type === "success") {
+      signInWithGoogle();
+    }
+  }, [response]);
 
   return (
     <Button

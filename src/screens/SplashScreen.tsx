@@ -16,6 +16,7 @@ const SplashScreen: FC = () => {
     const checkAuth = async () => {
       const { data } = await supabase.auth.getSession();
       if (data.session) {
+        console.log(data)
         dispatch(login(data.session.user.id));
         navigation.navigate("HomeStack");
       } else {
