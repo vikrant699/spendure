@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { accountsSlice } from "./slices/accountsSlice";
 import { appStateSlice } from "./slices/appStateSlice";
-import { authApi } from "./apis/authApis";
+import { authApi } from "./apis/authApis/authApis";
 import { authSlice } from "./slices/authSlice";
 
 const store = configureStore({

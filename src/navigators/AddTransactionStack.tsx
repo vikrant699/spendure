@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { AddTransactionStackParamList } from "../common/types";
+import { AddTransactionStackParamList } from "../common/typesAndInterfaces/types";
 import AddTrasactionScreen from "../screens/AddTransaction/AddTransactionScreen";
 import SelectItemsScreen from "../common/screens/SelectItemsScreen/SelectItemsScreen";
 

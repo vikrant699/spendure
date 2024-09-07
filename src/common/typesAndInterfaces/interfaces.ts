@@ -32,5 +32,12 @@ export interface AccountState {
 // State in authSlice
 export interface AuthState {
   loggedIn: boolean;
-  userId: string | null | undefined;
+  userId: string;
+  loginType: string;
+}
+
+// authSlice Payload
+export interface LoginPayload {
+  userId: string;
+  loginType: string;
 }

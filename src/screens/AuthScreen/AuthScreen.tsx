@@ -1,19 +1,23 @@
-import { FC, useState } from "react";
+import { FC, useState, useRef } from "react";
 import { Button, TextInput } from "react-native-paper";
 import { View, StyleSheet, Text, Platform } from "react-native";
 
-import AppleSignIn from "./AppleSignIn";
-import GoogleSignIn from "./GoogleSignIn";
-import GoogleSignInAndroid from "./GoogleSignInAndroid";
-import { NavigationOnlyProps } from "../../common/interfaces";
-import { useSignInWithEmailMutation } from "../../store/apis/authApis";
+import AppleSignIn from "./components/AppleSignIn/AppleSignIn";
+import GoogleSignInOAuth from "./components/GoogleSignInOAuth/GoogleSignInOAuth";
+import GoogleSignInNative from "./components/GoogleSignInNative/GoogleSignInNative";
+import CustomDialog, {
+  CustomDialogHandles,
+} from "../../common/components/CustomDialog";
+import { NavigationOnlyProps } from "../../common/typesAndInterfaces/interfaces";
+import { useSignInWithEmailMutation } from "../../store/apis/authApis/authApis";
+import { handleSocialSignIn } from "./AuthScreen.helpers";
 
 const Auth: FC<NavigationOnlyProps> = ({ navigation }) => {
   const [email, setEmail] = useState<string>("");
-
+  const errorDialogRef = useRef<CustomDialogHandles>(null);
   const [signInWithEmail, { isLoading, error }] = useSignInWithEmailMutation();
 
-  const handleSignIn = async () => {
+  const handleEmailSignIn = async () => {
     const result = await signInWithEmail(email);
     if ("data" in result) {
       navigation.navigate("LinkConfirmation");
@@ -22,6 +26,7 @@ const Auth: FC<NavigationOnlyProps> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <CustomDialog ref={errorDialogRef} />
       <View style={[styles.verticallySpaced, styles.mt20]}>
         <TextInput
           label="Email"
@@ -33,7 +38,7 @@ const Auth: FC<NavigationOnlyProps> = ({ navigation }) => {
       </View>
       {error && <Text style={{ color: "red" }}>{(error as any).data}</Text>}
       <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Button disabled={isLoading} onPress={handleSignIn}>
+        <Button disabled={isLoading} onPress={handleEmailSignIn}>
           Sign In
         </Button>
       </View>
@@ -42,8 +47,21 @@ const Auth: FC<NavigationOnlyProps> = ({ navigation }) => {
           Skip
         </Button>
       </View>
-      <AppleSignIn />
-     {Platform.OS === 'ios' ? <GoogleSignIn /> : <GoogleSignInAndroid/>}
+      <AppleSignIn
+        handleSignIn={handleSocialSignIn}
+        errorDialog={errorDialogRef.current!}
+      />
+      {Platform.OS === "ios" ? (
+        <GoogleSignInOAuth
+          handleSignIn={handleSocialSignIn}
+          errorDialog={errorDialogRef.current!}
+        />
+      ) : (
+        <GoogleSignInNative
+          handleSignIn={handleSocialSignIn}
+          errorDialog={errorDialogRef.current!}
+        />
+      )}
     </View>
   );
 };

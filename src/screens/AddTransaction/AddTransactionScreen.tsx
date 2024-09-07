@@ -3,7 +3,7 @@ import { StyleSheet, Keyboard, Pressable, Platform, View } from "react-native";
 import { TextInput, Button, SegmentedButtons } from "react-native-paper";
 import DateSelector from "./DateSelector";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { NavigationOnlyProps } from "../../common/interfaces";
+import { NavigationOnlyProps } from "../../common/typesAndInterfaces/interfaces";
 import {
   reduceBalance,
   addBalance,
@@ -12,7 +12,7 @@ import {
 } from "../../store/store";
 8;
 import SelectItems from "../../common/components/SelectItems";
-import { transactionCategories } from "../../common/constants";
+import { transactionCategories } from "../../common/constants/constants";
 
 const AddTrasactionScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
   const selectedAccountId = useAppSelector(

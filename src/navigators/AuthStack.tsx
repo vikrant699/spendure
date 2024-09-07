@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AuthScreen from "../screens/AuthScreen/AuthScreen";
-import LinkConfirmation from "../screens/AuthScreen/LinkConfirmationScreen";
+import LinkConfirmation from "../screens/LinkConfirmationScreen/LinkConfirmationScreen";
 import HomeStack from "./HomeStack";
 
 const Stack = createNativeStackNavigator();

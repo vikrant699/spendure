@@ -3,9 +3,9 @@ import { FC, useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
-import { supabase } from "../common/supabase";
+import { supabase } from "../common/libraries/supabase";
 import { login, logout } from "../store/slices/authSlice"; // Adjust path as needed
-import { NavigationType } from "../common/types";
+import { NavigationType } from "../common/typesAndInterfaces/types";
 
 const SplashScreen: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -14,14 +14,18 @@ const SplashScreen: FC = () => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const { data } = await supabase.auth.getSession();
-      if (data.session) {
-        console.log(data)
-        dispatch(login(data.session.user.id));
-        navigation.navigate("HomeStack");
+      const { data } = await supabase.auth.getUser();
+      if (data.user) {
+        dispatch(
+          login({
+            userId: data.user.id,
+            loginType: data.user.app_metadata.provider || "email",
+          })
+        );
+        navigation.replace("HomeStack");
       } else {
         dispatch(logout());
-        navigation.navigate("AuthStack");
+        navigation.replace("AuthStack");
       }
       setIsLoading(false);
     };

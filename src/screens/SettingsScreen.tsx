@@ -1,10 +1,10 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { Button } from "react-native-paper";
 import { View, StyleSheet } from "react-native";
 
-import { NavigationOnlyProps } from "../common/interfaces";
+import { NavigationOnlyProps } from "../common/typesAndInterfaces/interfaces";
 import { useAppDispatch } from "../store/hooks";
-import { useSignOutMutation } from "../store/apis/authApis";
+import { useSignOutMutation } from "../store/apis/authApis/authApis";
 import { logout } from "../store/slices/authSlice";
 
 const Settings: FC<NavigationOnlyProps> = ({ navigation }) => {

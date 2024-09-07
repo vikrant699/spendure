@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { View, StyleSheet } from "react-native";
 import { useAppSelector } from "../../store/hooks";
-import { NavigationOnlyProps } from "../../common/interfaces";
+import { NavigationOnlyProps } from "../../common/typesAndInterfaces/interfaces";
 import Card from "../../common/components/Card";
-import { width } from "../../common/constants";
+import { width } from "../../common/constants/constants";
 
 const HomeScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
   const accounts = useAppSelector((state) => state.accounts);

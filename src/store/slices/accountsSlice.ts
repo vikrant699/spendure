@@ -1,5 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AccountState, Transaction } from "../../common/interfaces";
+import {
+  AccountState,
+  Transaction,
+} from "../../common/typesAndInterfaces/interfaces";
 
 const initialAccountStatus: AccountState[] = [
   {

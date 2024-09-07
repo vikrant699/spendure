@@ -7,7 +7,7 @@ import { ParamListBase } from "@react-navigation/routers";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import iconsMap from "react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json";
-import { AddTransactionStackParamList } from "../../types";
+import { AddTransactionStackParamList } from "../../typesAndInterfaces/types";
 import SelectItems from "../../components/SelectItems";
 
 interface Item {

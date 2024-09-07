@@ -9,10 +9,10 @@ import {
 import * as Linking from "expo-linking";
 import * as IntentLauncher from "expo-intent-launcher";
 
-import { NavigationOnlyProps } from "../../common/interfaces";
+import { NavigationOnlyProps } from "../../common/typesAndInterfaces/interfaces";
 import { useAppDispatch } from "../../store/hooks";
 import { login } from "../../store/slices/authSlice";
-import { useCreateSessionFromUrlMutation } from "../../store/apis/authApis";
+import { useCreateSessionFromUrlMutation } from "../../store/apis/authApis/authApis";
 
 const LinkConfirmation: FC<NavigationOnlyProps> = ({ navigation }) => {
   const dispatch = useAppDispatch();
@@ -24,10 +24,10 @@ const LinkConfirmation: FC<NavigationOnlyProps> = ({ navigation }) => {
     const verifyEmail = async () => {
       if (url) {
         const result = await createSessionFromUrl(url);
-        console.log(result);
-        console.log(url);
         if (!result.error) {
-          dispatch(login(result.data));
+          dispatch(
+            login({ userId: result.data.session.user?.id, loginType: "email" })
+          );
           navigation.replace("Home");
         }
       }

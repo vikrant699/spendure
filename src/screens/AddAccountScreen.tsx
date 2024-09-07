@@ -5,7 +5,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { useAppDispatch } from "../store/hooks";
 import { addAccount } from "../store/store";
-import { RootStackParamList } from "../common/types";
+import { RootStackParamList } from "../common/typesAndInterfaces/types";
 
 const AddAccountScreen = () => {
   const navigation =
