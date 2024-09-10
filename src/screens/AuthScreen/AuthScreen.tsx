@@ -18,9 +18,11 @@ const Auth: FC<NavigationOnlyProps> = ({ navigation }) => {
   const [signInWithEmail, { isLoading, error }] = useSignInWithEmailMutation();
 
   const handleEmailSignIn = async () => {
-    const result = await signInWithEmail(email);
-    if ("data" in result) {
+    signInWithEmail(email);
+    if (!error) {
       navigation.navigate("LinkConfirmation");
+    } else {
+      errorDialogRef.current!.showDialog("Error", "Something went wrong.");
     }
   };
 
@@ -36,7 +38,6 @@ const Auth: FC<NavigationOnlyProps> = ({ navigation }) => {
           autoCapitalize={"none"}
         />
       </View>
-      {error && <Text style={{ color: "red" }}>{(error as any).data}</Text>}
       <View style={[styles.verticallySpaced, styles.mt20]}>
         <Button disabled={isLoading} onPress={handleEmailSignIn}>
           Sign In

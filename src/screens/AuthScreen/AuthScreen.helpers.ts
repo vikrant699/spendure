@@ -12,10 +12,7 @@ interface ErrorType {
   message: string;
 }
 
-export const handleError = (
-  error: ErrorType,
-  errorDialog: CustomDialogHandles
-) => {
+const handleError = (error: ErrorType, errorDialog: CustomDialogHandles) => {
   const ignoreErrorCodes = ["ERR_REQUEST_CANCELED", "UNKNOWN"];
   if (Platform.OS === "android") {
     if (error.code === statusCodes?.SIGN_IN_CANCELLED) {
@@ -26,7 +23,6 @@ export const handleError = (
       errorDialog.showDialog("Error", "Something went wrong.");
     }
   }
-
   if (!ignoreErrorCodes.includes(error.code))
     errorDialog.showDialog("Error", "Something went wrong.");
 };

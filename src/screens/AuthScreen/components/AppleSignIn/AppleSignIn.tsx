@@ -4,7 +4,6 @@ import { Platform, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { useAppDispatch } from "../../../../store/hooks";
-import { login } from "../../../../store/slices/authSlice";
 import { NavigationType } from "../../../../common/typesAndInterfaces/types";
 import { useAppleSignInMutation } from "../../../../store/apis/authApis/authApis";
 import { SignInComponentProps } from "../common/typesAndInterfaces/interfaces";
