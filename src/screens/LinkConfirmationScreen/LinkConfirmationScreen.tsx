@@ -13,6 +13,7 @@ import { NavigationOnlyProps } from "../../common/typesAndInterfaces/interfaces"
 import { useAppDispatch } from "../../store/hooks";
 import { login } from "../../store/slices/authSlice";
 import { useCreateSessionFromUrlMutation } from "../../store/apis/authApis/authApis";
+import { storeOnboardingComplete } from "../../store/thunks/authThunks";
 
 const LinkConfirmation: FC<NavigationOnlyProps> = ({ navigation }) => {
   const dispatch = useAppDispatch();
@@ -28,6 +29,7 @@ const LinkConfirmation: FC<NavigationOnlyProps> = ({ navigation }) => {
           dispatch(
             login({ userId: result.data.session.user?.id, loginType: "email" })
           );
+          dispatch(storeOnboardingComplete(true));
           navigation.replace("Home");
         }
       }

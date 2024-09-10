@@ -5,6 +5,7 @@ import { CustomDialogHandles } from "../../common/components/CustomDialog";
 import { login } from "../../store/slices/authSlice";
 import { NavigationType } from "../../common/typesAndInterfaces/types";
 import { AppDispatch } from "../../store/store";
+import { storeOnboardingComplete } from "../../store/thunks/authThunks";
 
 interface ErrorType {
   code: string;
@@ -40,6 +41,7 @@ export const handleSocialSignIn = async (
   const userId = data?.session?.user?.id;
   if (userId) {
     dispatch(login({ userId, loginType }));
+    dispatch(storeOnboardingComplete(true));
     navigation.replace("Home");
   }
 };

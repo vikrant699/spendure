@@ -1,13 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 import {
   AuthState,
   LoginPayload,
 } from "../../common/typesAndInterfaces/interfaces";
+import { storeOnboardingComplete } from "../thunks/authThunks";
 
 const initialState: AuthState = {
   loggedIn: false,
   userId: "",
   loginType: "",
+  onboardingCompleted: false,
 };
 
 // Auth Slice
@@ -25,6 +28,11 @@ export const authSlice = createSlice({
       state.userId = "";
       state.loginType = "";
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(storeOnboardingComplete.fulfilled, (state, action) => {
+      state.onboardingCompleted = true;
+    });
   },
 });
 
