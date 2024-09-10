@@ -1,6 +1,6 @@
 import { FC, useState, useRef } from "react";
 import { Button, TextInput } from "react-native-paper";
-import { View, StyleSheet, Text, Platform } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 
 import AppleSignIn from "./components/AppleSignIn/AppleSignIn";
 import GoogleSignInOAuth from "./components/GoogleSignInOAuth/GoogleSignInOAuth";
@@ -14,21 +14,29 @@ import { handleSocialSignIn } from "./AuthScreen.helpers";
 
 const Auth: FC<NavigationOnlyProps> = ({ navigation }) => {
   const [email, setEmail] = useState<string>("");
+  const [errorOccurred, setErrorOccurred] = useState<boolean>(false);
   const errorDialogRef = useRef<CustomDialogHandles>(null);
   const [signInWithEmail, { isLoading, error }] = useSignInWithEmailMutation();
 
   const handleEmailSignIn = async () => {
-    signInWithEmail(email);
+    await signInWithEmail(email);
     if (!error) {
-      navigation.navigate("LinkConfirmation");
+      navigation.navigate("LinkConfirmation", { email });
     } else {
-      errorDialogRef.current!.showDialog("Error", "Something went wrong.");
+      errorDialogRef.current!.showDialog("Error", "Error sending the email!");
     }
+  };
+
+  const onErrorDialogVisible = (isVisible: boolean) => {
+    setErrorOccurred(isVisible);
   };
 
   return (
     <View style={styles.container}>
-      <CustomDialog ref={errorDialogRef} />
+      <CustomDialog
+        ref={errorDialogRef}
+        onVisibilityChange={onErrorDialogVisible}
+      />
       <View style={[styles.verticallySpaced, styles.mt20]}>
         <TextInput
           label="Email"
@@ -43,11 +51,16 @@ const Auth: FC<NavigationOnlyProps> = ({ navigation }) => {
           Sign In
         </Button>
       </View>
-      <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Button disabled={isLoading} onPress={() => navigation.replace("Home")}>
-          Skip
-        </Button>
-      </View>
+      {errorOccurred && (
+        <View style={[styles.verticallySpaced, styles.mt20]}>
+          <Button
+            disabled={isLoading}
+            onPress={() => navigation.replace("Home")}
+          >
+            Skip
+          </Button>
+        </View>
+      )}
       <AppleSignIn
         handleSignIn={handleSocialSignIn}
         errorDialog={errorDialogRef.current!}

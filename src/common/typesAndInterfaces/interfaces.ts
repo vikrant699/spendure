@@ -34,7 +34,7 @@ export interface AuthState {
   loggedIn: boolean;
   userId: string;
   loginType: string;
-  onboardingCompleted: boolean;
+  onboardingType: "skipped" | "completed" | "";
 }
 
 // authSlice Payload

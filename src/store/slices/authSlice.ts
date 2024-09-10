@@ -4,13 +4,13 @@ import {
   AuthState,
   LoginPayload,
 } from "../../common/typesAndInterfaces/interfaces";
-import { storeOnboardingComplete } from "../thunks/authThunks";
+import { storeOnboardingType } from "../thunks/authThunks";
 
 const initialState: AuthState = {
   loggedIn: false,
   userId: "",
   loginType: "",
-  onboardingCompleted: false,
+  onboardingType: "",
 };
 
 // Auth Slice
@@ -30,8 +30,8 @@ export const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(storeOnboardingComplete.fulfilled, (state, action) => {
-      state.onboardingCompleted = true;
+    builder.addCase(storeOnboardingType.fulfilled, (state, action) => {
+      state.onboardingType = action.payload;
     });
   },
 });

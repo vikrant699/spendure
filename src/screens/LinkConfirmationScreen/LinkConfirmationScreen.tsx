@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { Text, Button } from "react-native-paper";
 import {
   Linking as AppLinking,
@@ -6,31 +6,54 @@ import {
   View,
   StyleSheet,
 } from "react-native";
-import * as Linking from "expo-linking";
-import * as IntentLauncher from "expo-intent-launcher";
+import { useURL } from "expo-linking";
+import { IntentLauncherParams, startActivityAsync } from "expo-intent-launcher";
+import { RouteProp } from "@react-navigation/native";
 
 import { NavigationOnlyProps } from "../../common/typesAndInterfaces/interfaces";
 import { useAppDispatch } from "../../store/hooks";
 import { login } from "../../store/slices/authSlice";
-import { useCreateSessionFromUrlMutation } from "../../store/apis/authApis/authApis";
-import { storeOnboardingComplete } from "../../store/thunks/authThunks";
+import {
+  useCreateSessionFromUrlMutation,
+  useSignInWithEmailMutation,
+} from "../../store/apis/authApis/authApis";
+import { storeOnboardingType } from "../../store/thunks/authThunks";
+import CustomDialog, {
+  CustomDialogHandles,
+} from "../../common/components/CustomDialog";
+import { AuthStackParamList } from "../../common/typesAndInterfaces/types";
 
-const LinkConfirmation: FC<NavigationOnlyProps> = ({ navigation }) => {
+type LinkConfirmationRouteProp = RouteProp<
+  AuthStackParamList,
+  "LinkConfirmation"
+>;
+interface LinkConfirmationProps extends NavigationOnlyProps {
+  route: LinkConfirmationRouteProp;
+}
+
+const LinkConfirmation: FC<LinkConfirmationProps> = ({ navigation, route }) => {
   const dispatch = useAppDispatch();
+  const errorDialogRef = useRef<CustomDialogHandles>(null);
+  const [resendClickCount, setResendClickCount] = useState<number>(0);
+  const [errorOccurred, setErrorOccurred] = useState<boolean>(false);
   const [createSessionFromUrl, { isLoading, error }] =
     useCreateSessionFromUrlMutation();
-  const url = Linking.useURL();
+  const [signInWithEmail] = useSignInWithEmailMutation();
+  const url = useURL();
 
   useEffect(() => {
     const verifyEmail = async () => {
       if (url) {
-        const result = await createSessionFromUrl(url);
-        if (!result.error) {
+        const { data } = await createSessionFromUrl(url);
+        if (!error) {
           dispatch(
-            login({ userId: result.data.session.user?.id, loginType: "email" })
+            login({ userId: data.session.user?.id, loginType: "email" })
           );
-          dispatch(storeOnboardingComplete(true));
+          dispatch(storeOnboardingType("completed"));
           navigation.replace("Home");
+        } else {
+          setErrorOccurred(true);
+          errorDialogRef.current?.showDialog("Error", "Something went wrong!");
         }
       }
     };
@@ -38,13 +61,22 @@ const LinkConfirmation: FC<NavigationOnlyProps> = ({ navigation }) => {
     verifyEmail();
   }, [url]);
 
+  const handleResendEmail = async () => {
+    setResendClickCount((clickCount) => clickCount + 1);
+    const { error } = await signInWithEmail(route.params.email);
+    if (error) {
+      setErrorOccurred(true);
+      errorDialogRef.current!.showDialog("Error", "Error sending the email!");
+    }
+  };
+
   const openEmailApp = () => {
     if (Platform.OS === "android") {
       const activityAction = "android.intent.action.MAIN";
-      const intentParams: IntentLauncher.IntentLauncherParams = {
+      const intentParams: IntentLauncherParams = {
         category: "android.intent.category.APP_EMAIL",
       };
-      IntentLauncher.startActivityAsync(activityAction, intentParams);
+      startActivityAsync(activityAction, intentParams);
     } else if (Platform.OS === "ios") {
       AppLinking.openURL("message://");
     }
@@ -52,12 +84,16 @@ const LinkConfirmation: FC<NavigationOnlyProps> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <CustomDialog ref={errorDialogRef} />
       <View style={[styles.verticallySpaced, styles.mt20]}>
         <Text>Link to verify sent to your email.</Text>
       </View>
       <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Button>Resend Link</Button>
+        <Button onPress={handleResendEmail}>Resend Link</Button>
       </View>
+      {(resendClickCount === 2 || errorOccurred) && (
+        <Button onPress={() => navigation.replace("Home")}>Skip</Button>
+      )}
       <View style={[styles.verticallySpaced, styles.mt20]}>
         <Button onPress={openEmailApp}>Open Mail App</Button>
       </View>

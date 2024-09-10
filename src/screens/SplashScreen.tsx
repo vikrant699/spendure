@@ -12,9 +12,7 @@ const SplashScreen: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigation: NavigationType = useNavigation();
   const dispatch = useAppDispatch();
-  const onboardingCompleted = useAppSelector(
-    (state) => state.auth.onboardingCompleted
-  );
+  const onboardingType = useAppSelector((state) => state.auth.onboardingType);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -27,7 +25,7 @@ const SplashScreen: FC = () => {
           })
         );
 
-        if (onboardingCompleted) navigation.replace("HomeStack");
+        if (onboardingType !== "") navigation.replace("HomeStack");
       } else {
         dispatch(logout());
         navigation.replace("AuthStack");

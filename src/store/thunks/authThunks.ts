@@ -1,12 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-export const storeOnboardingComplete = createAsyncThunk(
-  "auth/storeOnboardingComplete",
-  async (onboardingComplete: boolean) => {
+export const storeOnboardingType = createAsyncThunk(
+  "auth/storeOnboardingType",
+  async (onboardingType: "skipped" | "completed") => {
     await AsyncStorage.setItem(
-      "onboardingComplete",
-      JSON.stringify(onboardingComplete)
+      "onboardingType",
+      JSON.stringify(onboardingType)
     );
+    return onboardingType;
   }
 );

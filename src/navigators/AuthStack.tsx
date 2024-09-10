@@ -1,10 +1,12 @@
 import { FC } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import AuthScreen from "../screens/AuthScreen/AuthScreen";
 import LinkConfirmation from "../screens/LinkConfirmationScreen/LinkConfirmationScreen";
 import HomeStack from "./HomeStack";
+import { AuthStackParamList } from "../common/typesAndInterfaces/types";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<AuthStackParamList>();
 
 const AuthStack: FC = () => {
   return (

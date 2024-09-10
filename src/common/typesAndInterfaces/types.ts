@@ -11,6 +11,14 @@ export type RootStackParamList = {
   AddTransactionStack: undefined;
 };
 
+export type AuthStackParamList = {
+  Authentication: undefined;
+  LinkConfirmation: {
+    email: string;
+  };
+  Home: undefined;
+};
+
 export type AddTransactionStackParamList = {
   AddTransaction: undefined;
   TransactionCategory: undefined;
