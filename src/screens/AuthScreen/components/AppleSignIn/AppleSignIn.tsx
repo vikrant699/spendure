@@ -6,11 +6,12 @@ import { useNavigation } from "@react-navigation/native";
 import { useAppDispatch } from "../../../../store/hooks";
 import { NavigationType } from "../../../../common/typesAndInterfaces/types";
 import { useAppleSignInMutation } from "../../../../store/apis/authApis/authApis";
-import { SignInComponentProps } from "../common/typesAndInterfaces/interfaces";
+import { SignInComponentProps } from "../../typesAndInterfaces/interfaces";
 
 const AppleSignIn: FC<SignInComponentProps> = ({
   handleSignIn,
   errorDialog,
+  redirectTo,
 }) => {
   const navigation: NavigationType = useNavigation();
   const [appleSignIn] = useAppleSignInMutation();
@@ -22,7 +23,8 @@ const AppleSignIn: FC<SignInComponentProps> = ({
       "apple",
       navigation,
       dispatch,
-      errorDialog
+      errorDialog,
+      redirectTo
     );
   };
 

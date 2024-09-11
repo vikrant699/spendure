@@ -7,11 +7,12 @@ import { makeRedirectUri } from "expo-auth-session";
 import { useGoogleSignInOAuthMutation } from "../../../../store/apis/authApis/authApis";
 import { useAppDispatch } from "../../../../store/hooks";
 import { NavigationType } from "../../../../common/typesAndInterfaces/types";
-import { SignInComponentProps } from "../common/typesAndInterfaces/interfaces";
+import { SignInComponentProps } from "../../typesAndInterfaces/interfaces";
 
 const GoogleSignInOAuth: FC<SignInComponentProps> = ({
   handleSignIn,
   errorDialog,
+  redirectTo,
 }) => {
   const navigation: NavigationType = useNavigation();
   const [_, response, promptAsync] = useAuthRequest({
@@ -32,7 +33,8 @@ const GoogleSignInOAuth: FC<SignInComponentProps> = ({
       "google",
       navigation,
       dispatch,
-      errorDialog
+      errorDialog,
+      redirectTo
     );
   };
 

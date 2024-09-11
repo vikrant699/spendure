@@ -25,7 +25,7 @@ import { AuthStackParamList } from "../../common/typesAndInterfaces/types";
 
 type LinkConfirmationRouteProp = RouteProp<
   AuthStackParamList,
-  "LinkConfirmation"
+  "LinkConfirmationScreen"
 >;
 interface LinkConfirmationProps extends NavigationOnlyProps {
   route: LinkConfirmationRouteProp;
@@ -40,6 +40,9 @@ const LinkConfirmation: FC<LinkConfirmationProps> = ({ navigation, route }) => {
     useCreateSessionFromUrlMutation();
   const [signInWithEmail] = useSignInWithEmailMutation();
   const url = useURL();
+  const {
+    params: { email, redirectTo },
+  } = route;
 
   useEffect(() => {
     const verifyEmail = async () => {
@@ -50,7 +53,7 @@ const LinkConfirmation: FC<LinkConfirmationProps> = ({ navigation, route }) => {
             login({ userId: data.session.user?.id, loginType: "email" })
           );
           dispatch(storeOnboardingType("completed"));
-          navigation.replace("Home");
+          navigation.replace(redirectTo || "HomeStack");
         } else {
           setErrorOccurred(true);
           errorDialogRef.current?.showDialog("Error", "Something went wrong!");
@@ -63,7 +66,7 @@ const LinkConfirmation: FC<LinkConfirmationProps> = ({ navigation, route }) => {
 
   const handleResendEmail = async () => {
     setResendClickCount((clickCount) => clickCount + 1);
-    const { error } = await signInWithEmail(route.params.email);
+    const { error } = await signInWithEmail(email);
     if (error) {
       setErrorOccurred(true);
       errorDialogRef.current!.showDialog("Error", "Error sending the email!");
@@ -92,7 +95,7 @@ const LinkConfirmation: FC<LinkConfirmationProps> = ({ navigation, route }) => {
         <Button onPress={handleResendEmail}>Resend Link</Button>
       </View>
       {(resendClickCount === 2 || errorOccurred) && (
-        <Button onPress={() => navigation.replace("Home")}>Skip</Button>
+        <Button onPress={() => navigation.replace("HomeStack")}>Skip</Button>
       )}
       <View style={[styles.verticallySpaced, styles.mt20]}>
         <Button onPress={openEmailApp}>Open Mail App</Button>

@@ -4,8 +4,9 @@ import BottomTabNavigator from "./BottomTabNavigator";
 import AddTransactionStack from "./AddTransactionStack";
 import SettingsScreen from "../screens/SettingsScreen";
 import AddAccountScreen from "../screens/AddAccountScreen";
+import { HomeStackParamList } from "../common/typesAndInterfaces/types";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<HomeStackParamList>();
 
 const HomeStack: FC = () => {
   return (

@@ -3,7 +3,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import AuthScreen from "../screens/AuthScreen/AuthScreen";
 import LinkConfirmation from "../screens/LinkConfirmationScreen/LinkConfirmationScreen";
-import HomeStack from "./HomeStack";
 import { AuthStackParamList } from "../common/typesAndInterfaces/types";
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
@@ -14,15 +13,14 @@ const AuthStack: FC = () => {
       screenOptions={({ navigation, route }) => ({
         headerShown: false,
       })}
-      initialRouteName="Authentication"
+      initialRouteName="AuthScreen"
     >
-      <Stack.Screen name="Authentication" component={AuthScreen} />
+      <Stack.Screen name="AuthScreen" component={AuthScreen} />
       <Stack.Screen
-        name="LinkConfirmation"
+        name="LinkConfirmationScreen"
         component={LinkConfirmation}
         options={{ headerShown: true }}
       />
-      <Stack.Screen name="Home" component={HomeStack} />
     </Stack.Navigator>
   );
 };

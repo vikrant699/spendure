@@ -6,14 +6,9 @@ import { login } from "../../store/slices/authSlice";
 import { NavigationType } from "../../common/typesAndInterfaces/types";
 import { AppDispatch } from "../../store/store";
 import { storeOnboardingType } from "../../store/thunks/authThunks";
+import { Error } from "./typesAndInterfaces/interfaces";
 
-interface ErrorType {
-  code: string;
-  status: number;
-  message: string;
-}
-
-const handleError = (error: ErrorType, errorDialog: CustomDialogHandles) => {
+const handleError = (error: Error, errorDialog: CustomDialogHandles) => {
   const ignoreErrorCodes = ["ERR_REQUEST_CANCELED", "UNKNOWN"];
   if (Platform.OS === "android") {
     if (error.code === statusCodes?.SIGN_IN_CANCELLED) {
@@ -29,11 +24,12 @@ const handleError = (error: ErrorType, errorDialog: CustomDialogHandles) => {
 };
 
 export const handleSocialSignIn = async (
-  signInMethod: () => Promise<{ data: any; error: ErrorType }>,
+  signInMethod: () => Promise<{ data: any; error: Error }>,
   loginType: string,
   navigation: NavigationType,
   dispatch: AppDispatch,
-  errorDialog: CustomDialogHandles
+  errorDialog: CustomDialogHandles,
+  redirectTo: string | undefined
 ) => {
   const { data, error } = await signInMethod();
   if (error) handleError(error, errorDialog);
@@ -42,6 +38,6 @@ export const handleSocialSignIn = async (
   if (userId) {
     dispatch(login({ userId, loginType }));
     dispatch(storeOnboardingType("completed"));
-    navigation.replace("Home");
+    navigation.replace(redirectTo || "HomeStack");
   }
 };

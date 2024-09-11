@@ -1,6 +1,7 @@
 import { FC, useState, useRef } from "react";
 import { Button, TextInput } from "react-native-paper";
 import { View, StyleSheet, Platform } from "react-native";
+import { RouteProp } from "@react-navigation/native";
 
 import AppleSignIn from "./components/AppleSignIn/AppleSignIn";
 import GoogleSignInOAuth from "./components/GoogleSignInOAuth/GoogleSignInOAuth";
@@ -11,17 +12,26 @@ import CustomDialog, {
 import { NavigationOnlyProps } from "../../common/typesAndInterfaces/interfaces";
 import { useSignInWithEmailMutation } from "../../store/apis/authApis/authApis";
 import { handleSocialSignIn } from "./AuthScreen.helpers";
+import { AuthStackParamList } from "../../common/typesAndInterfaces/types";
 
-const Auth: FC<NavigationOnlyProps> = ({ navigation }) => {
+type AuthRouteProp = RouteProp<AuthStackParamList, "AuthScreen">;
+interface AuthProps extends NavigationOnlyProps {
+  route: AuthRouteProp;
+}
+
+const Auth: FC<AuthProps> = ({ navigation, route }) => {
   const [email, setEmail] = useState<string>("");
   const [errorOccurred, setErrorOccurred] = useState<boolean>(false);
   const errorDialogRef = useRef<CustomDialogHandles>(null);
   const [signInWithEmail, { isLoading, error }] = useSignInWithEmailMutation();
+  const {
+    params: { redirectTo },
+  } = route;
 
   const handleEmailSignIn = async () => {
     await signInWithEmail(email);
     if (!error) {
-      navigation.navigate("LinkConfirmation", { email });
+      navigation.navigate("LinkConfirmationScreen", { email, redirectTo });
     } else {
       errorDialogRef.current!.showDialog("Error", "Error sending the email!");
     }
@@ -51,11 +61,11 @@ const Auth: FC<NavigationOnlyProps> = ({ navigation }) => {
           Sign In
         </Button>
       </View>
-      {errorOccurred && (
+      {errorOccurred && !redirectTo && (
         <View style={[styles.verticallySpaced, styles.mt20]}>
           <Button
             disabled={isLoading}
-            onPress={() => navigation.replace("Home")}
+            onPress={() => navigation.replace("HomeStack")}
           >
             Skip
           </Button>
@@ -64,16 +74,19 @@ const Auth: FC<NavigationOnlyProps> = ({ navigation }) => {
       <AppleSignIn
         handleSignIn={handleSocialSignIn}
         errorDialog={errorDialogRef.current!}
+        redirectTo={redirectTo}
       />
       {Platform.OS === "ios" ? (
         <GoogleSignInOAuth
           handleSignIn={handleSocialSignIn}
           errorDialog={errorDialogRef.current!}
+          redirectTo={redirectTo}
         />
       ) : (
         <GoogleSignInNative
           handleSignIn={handleSocialSignIn}
           errorDialog={errorDialogRef.current!}
+          redirectTo={redirectTo}
         />
       )}
     </View>

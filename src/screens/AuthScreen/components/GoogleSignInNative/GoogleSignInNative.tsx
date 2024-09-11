@@ -5,11 +5,12 @@ import { useGoogleSignInNativeMutation } from "../../../../store/apis/authApis/a
 import { useAppDispatch } from "../../../../store/hooks";
 import { NavigationType } from "../../../../common/typesAndInterfaces/types";
 import { GoogleSigninButton } from "../../../../common/libraries/googleSignInNative";
-import { SignInComponentProps } from "../common/typesAndInterfaces/interfaces";
+import { SignInComponentProps } from "../../typesAndInterfaces/interfaces";
 
 const GoogleSignInNative: FC<SignInComponentProps> = ({
   handleSignIn,
   errorDialog,
+  redirectTo,
 }) => {
   const navigation: NavigationType = useNavigation();
   const dispatch = useAppDispatch();
@@ -24,7 +25,8 @@ const GoogleSignInNative: FC<SignInComponentProps> = ({
       "google",
       navigation,
       dispatch,
-      errorDialog
+      errorDialog,
+      redirectTo
     );
   };
 

@@ -1,4 +1,3 @@
-// src/components/SplashScreen.tsx
 import { FC, useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -50,7 +49,7 @@ const SplashScreen: FC = () => {
     );
   }
 
-  return null; // Render nothing while transitioning
+  return null;
 };
 
 const styles = StyleSheet.create({

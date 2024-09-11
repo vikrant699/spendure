@@ -1,29 +1,45 @@
 import { FC } from "react";
 import { Button } from "react-native-paper";
 import { View, StyleSheet } from "react-native";
+import { RouteProp } from "@react-navigation/native";
 
 import { NavigationOnlyProps } from "../common/typesAndInterfaces/interfaces";
-import { useAppDispatch } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { useSignOutMutation } from "../store/apis/authApis/authApis";
 import { logout } from "../store/slices/authSlice";
+import { HomeStackParamList } from "../common/typesAndInterfaces/types";
 
-const Settings: FC<NavigationOnlyProps> = ({ navigation }) => {
+type SettingsRouteProp = RouteProp<HomeStackParamList, "Settings">;
+interface SettingsProps extends NavigationOnlyProps {
+  route: SettingsRouteProp;
+}
+
+const Settings: FC<SettingsProps> = ({ navigation, route }) => {
   const dispatch = useAppDispatch();
+  const loggedIn = useAppSelector((state) => state.auth.loggedIn);
   const [signOut, { isLoading, error }] = useSignOutMutation();
+  const { name } = route;
 
   const handleSignOut = async () => {
     await signOut();
     dispatch(logout());
-    // if ("data" in result) {
-    //   navigation.navigate("Home");
-    // }
+  };
+
+  const handleSignInClick = () => {
+    navigation.navigate("AuthStack", { redirectTo: name });
   };
 
   return (
     <View style={[styles.verticallySpaced, styles.mt20]}>
-      <Button disabled={isLoading} onPress={handleSignOut}>
-        Sign Out
-      </Button>
+      {loggedIn ? (
+        <Button disabled={isLoading} onPress={handleSignOut}>
+          Sign Out
+        </Button>
+      ) : (
+        <Button disabled={isLoading} onPress={handleSignInClick}>
+          Sign In
+        </Button>
+      )}
     </View>
   );
 };
