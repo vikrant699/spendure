@@ -1,4 +1,4 @@
-import { NavigationType } from "./types";
+import { NavigationType, OnboardingInfoType } from "./types";
 
 // For components with only navigation prop
 export interface NavigationOnlyProps {
@@ -34,7 +34,7 @@ export interface AuthState {
   loggedIn: boolean;
   userId: string;
   loginType: string;
-  onboardingType: "skipped" | "completed" | "";
+  onboardingType: OnboardingInfoType;
 }
 
 // authSlice Payload

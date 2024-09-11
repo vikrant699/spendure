@@ -30,3 +30,5 @@ export type AddTransactionStackParamList = {
     onSelect: (payload: Record<string, any>) => void;
   };
 };
+
+export type OnboardingInfoType = "skipped" | "completed" | "";
