@@ -1,7 +1,7 @@
 import { FC, useState, useRef } from "react";
 import { Button, TextInput } from "react-native-paper";
 import { View, StyleSheet } from "react-native";
-import { RouteProp } from "@react-navigation/native";
+import { RouteProp, CommonActions } from "@react-navigation/native";
 
 import AppleSignIn from "./components/AppleSignIn/AppleSignIn";
 import GoogleSignInOAuth from "./components/GoogleSignInOAuth/GoogleSignInOAuth";
@@ -12,10 +12,10 @@ import CustomDialog, {
 import { NavigationOnlyProps } from "../../common/typesAndInterfaces/interfaces";
 import { useSignInWithEmailMutation } from "../../store/apis/authApis/authApis";
 import { handleSocialSignIn } from "./Auth.helpers";
-import { AuthStackParamList } from "../../common/typesAndInterfaces/types";
+import { RootStackParamList } from "../../common/typesAndInterfaces/types";
 import { isIos } from "../../common/constants/constants";
 
-type AuthRouteProp = RouteProp<AuthStackParamList, "AuthScreen">;
+type AuthRouteProp = RouteProp<RootStackParamList, "AuthScreen">;
 interface AuthProps extends NavigationOnlyProps {
   route: AuthRouteProp;
 }
@@ -24,15 +24,22 @@ const Auth: FC<AuthProps> = ({ navigation, route }) => {
   const [email, setEmail] = useState<string>("");
   const [errorOccurred, setErrorOccurred] = useState<boolean>(false);
   const errorDialogRef = useRef<CustomDialogHandles>(null);
-  const [signInWithEmail, { isLoading, error }] = useSignInWithEmailMutation();
+  const [signInWithEmail, { isLoading }] = useSignInWithEmailMutation();
   const {
-    params: { redirectTo },
+    params: { redirectTo, fromBottomTabs } = {
+      redirectTo: "BottomTabs",
+      fromBottomTabs: false,
+    },
   } = route;
 
   const handleEmailSignIn = async () => {
-    await signInWithEmail(email);
+    const { error } = await signInWithEmail(email);
     if (!error) {
-      navigation.navigate("LinkConfirmationScreen", { email, redirectTo });
+      navigation.navigate("LinkConfirmationScreen", {
+        email,
+        redirectTo,
+        fromBottomTabs,
+      });
     } else {
       errorDialogRef.current!.showDialog("Error", "Error sending the email!");
     }
@@ -66,7 +73,14 @@ const Auth: FC<AuthProps> = ({ navigation, route }) => {
         <View style={[styles.verticallySpaced, styles.mt20]}>
           <Button
             disabled={isLoading}
-            onPress={() => navigation.replace("HomeStack")}
+            onPress={() =>
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{ name: "BottomTabs" }],
+                })
+              )
+            }
           >
             Skip
           </Button>
@@ -76,18 +90,21 @@ const Auth: FC<AuthProps> = ({ navigation, route }) => {
         handleSignIn={handleSocialSignIn}
         errorDialog={errorDialogRef.current!}
         redirectTo={redirectTo}
+        fromBottomTabs={fromBottomTabs}
       />
       {isIos ? (
         <GoogleSignInOAuth
           handleSignIn={handleSocialSignIn}
           errorDialog={errorDialogRef.current!}
           redirectTo={redirectTo}
+          fromBottomTabs={fromBottomTabs}
         />
       ) : (
         <GoogleSignInNative
           handleSignIn={handleSocialSignIn}
           errorDialog={errorDialogRef.current!}
           redirectTo={redirectTo}
+          fromBottomTabs={fromBottomTabs}
         />
       )}
     </View>

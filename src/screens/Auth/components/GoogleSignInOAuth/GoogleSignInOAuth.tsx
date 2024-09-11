@@ -13,6 +13,7 @@ const GoogleSignInOAuth: FC<SignInComponentProps> = ({
   handleSignIn,
   errorDialog,
   redirectTo,
+  fromBottomTabs,
 }) => {
   const navigation: NavigationType = useNavigation();
   const [_, response, promptAsync] = useAuthRequest({
@@ -34,7 +35,8 @@ const GoogleSignInOAuth: FC<SignInComponentProps> = ({
       navigation,
       dispatch,
       errorDialog,
-      redirectTo
+      redirectTo,
+      fromBottomTabs
     );
   };
 

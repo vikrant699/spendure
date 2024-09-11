@@ -1,3 +1,5 @@
+import { CommonActions } from "@react-navigation/native";
+
 import { statusCodes } from "../../common/libraries/googleSignInNative";
 import { CustomDialogHandles } from "../../common/components/CustomDialog";
 import { login } from "../../store/slices/authSlice";
@@ -28,7 +30,8 @@ export const handleSocialSignIn = async (
   navigation: NavigationType,
   dispatch: AppDispatch,
   errorDialog: CustomDialogHandles,
-  redirectTo: string | undefined
+  redirectTo: string | undefined,
+  fromBottomTabs: boolean | undefined
 ) => {
   const { data, error } = await signInMethod();
   if (error) handleError(error, errorDialog);
@@ -37,6 +40,17 @@ export const handleSocialSignIn = async (
   if (userId) {
     dispatch(login({ userId, loginType }));
     dispatch(storeOnboardingType("completed"));
-    navigation.replace(redirectTo || "HomeStack");
+
+    const routeName = redirectTo || "BottomTabs";
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [
+          fromBottomTabs
+            ? { name: "BottomTabs", state: { routes: [{ name: routeName }] } }
+            : { name: routeName },
+        ],
+      })
+    );
   }
 };

@@ -11,6 +11,7 @@ const GoogleSignInNative: FC<SignInComponentProps> = ({
   handleSignIn,
   errorDialog,
   redirectTo,
+  fromBottomTabs,
 }) => {
   const navigation: NavigationType = useNavigation();
   const dispatch = useAppDispatch();
@@ -26,7 +27,8 @@ const GoogleSignInNative: FC<SignInComponentProps> = ({
       navigation,
       dispatch,
       errorDialog,
-      redirectTo
+      redirectTo,
+      fromBottomTabs
     );
   };
 

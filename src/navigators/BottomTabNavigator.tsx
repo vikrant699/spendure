@@ -4,8 +4,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BottomNavigation } from "react-native-paper";
 import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
 
-import HomeScreen from "../screens/Home/Home";
-import SettingsScreen from "../screens/Settings/Settings";
+import Home from "../screens/Home/Home";
+import Settings from "../screens/Settings/Settings";
 import AddTransactionButton from "./components/AddTransactionButton";
 import { BottomTabsParamList } from "../common/typesAndInterfaces/types";
 
@@ -36,7 +36,10 @@ const BottomTabNavigator: FC = () => {
                 preventDefault();
               } else {
                 navigation.dispatch({
-                  ...CommonActions.navigate(route.name, route.params),
+                  ...CommonActions.navigate(route.name, {
+                    ...route.params,
+                    fromBottomTabs: true,
+                  }),
                   target: state.key,
                 });
               }
@@ -56,8 +59,8 @@ const BottomTabNavigator: FC = () => {
         )}
       >
         <Tab.Screen
-          name="Home"
-          component={HomeScreen}
+          name="HomeScreen"
+          component={Home}
           options={{
             tabBarLabel: "Home",
             tabBarIcon: ({ color, size }) => {
@@ -83,8 +86,8 @@ const BottomTabNavigator: FC = () => {
           }}
         />
         <Tab.Screen
-          name="Settings"
-          component={SettingsScreen}
+          name="SettingsScreen"
+          component={Settings}
           options={{
             tabBarLabel: "Settings",
             tabBarIcon: ({ color, size }) => {

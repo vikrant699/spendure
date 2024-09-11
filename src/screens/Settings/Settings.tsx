@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useRef } from "react";
 import { Button } from "react-native-paper";
 import { View, StyleSheet } from "react-native";
 import { RouteProp } from "@react-navigation/native";
@@ -7,9 +7,9 @@ import { NavigationOnlyProps } from "../../common/typesAndInterfaces/interfaces"
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useSignOutMutation } from "../../store/apis/authApis/authApis";
 import { logout } from "../../store/slices/authSlice";
-import { HomeStackParamList } from "../../common/typesAndInterfaces/types";
+import { RootStackParamList } from "../../common/typesAndInterfaces/types";
 
-type SettingsRouteProp = RouteProp<HomeStackParamList, "Settings">;
+type SettingsRouteProp = RouteProp<RootStackParamList, "SettingsScreen">;
 interface SettingsProps extends NavigationOnlyProps {
   route: SettingsRouteProp;
 }
@@ -18,15 +18,21 @@ const Settings: FC<SettingsProps> = ({ navigation, route }) => {
   const dispatch = useAppDispatch();
   const loggedIn = useAppSelector((state) => state.auth.loggedIn);
   const [signOut, { isLoading, error }] = useSignOutMutation();
-  const { name } = route;
+
+  const { name, params: { fromBottomTabs } = { fromBottomTabs: false } } =
+    route;
 
   const handleSignOut = async () => {
-    await signOut();
-    dispatch(logout());
+    try {
+      await signOut();
+      dispatch(logout());
+    } catch {
+      // to do
+    }
   };
 
   const handleSignInClick = () => {
-    navigation.navigate("AuthStack", { redirectTo: name });
+    navigation.navigate("AuthScreen", { redirectTo: name, fromBottomTabs });
   };
 
   return (

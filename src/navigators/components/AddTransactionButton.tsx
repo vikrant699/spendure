@@ -5,12 +5,12 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import { HomeStackParamList } from "../../common/typesAndInterfaces/types";
+import { RootStackParamList } from "../../common/typesAndInterfaces/types";
 import { isIos } from "../../common/constants/constants";
 
 const AddTransactionButton: FC = () => {
   const navigation =
-    useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
     <>

@@ -14,8 +14,10 @@ export interface SignInComponentProps {
     navigation: NavigationType,
     dispatch: AppDispatch,
     errorDialog: CustomDialogHandles,
-    redirectTo: string | undefined
+    redirectTo: string | undefined,
+    fromBottomTabs: boolean | undefined
   ) => void;
   errorDialog: CustomDialogHandles;
   redirectTo?: string | undefined;
+  fromBottomTabs?: boolean | undefined;
 }

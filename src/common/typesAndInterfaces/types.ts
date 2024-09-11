@@ -4,17 +4,18 @@ import { AccountState } from "./interfaces";
 
 export type NavigationType = NativeStackNavigationProp<ParamListBase>;
 
-export type HomeStackParamList = {
+export type RootStackParamList = {
+  SplashScreen: undefined;
+  AuthScreen: { redirectTo?: string; fromBottomTabs?: boolean };
+  LinkConfirmationScreen: {
+    email: string;
+    redirectTo?: string;
+    fromBottomTabs?: boolean;
+  };
   BottomTabs: undefined;
-  Transactions: undefined;
-  Settings: { name: string };
+  SettingsScreen: { fromBottomTabs?: boolean };
   AddTransactionStack: undefined;
   AddAccountScreen: undefined;
-};
-
-export type AuthStackParamList = {
-  AuthScreen: { redirectTo?: string };
-  LinkConfirmationScreen: { email: string; redirectTo?: string };
 };
 
 export type AddTransactionStackParamList = {
@@ -30,9 +31,9 @@ export type AddTransactionStackParamList = {
 };
 
 export type BottomTabsParamList = {
-  Home: undefined;
+  HomeScreen: undefined;
   Dummy: undefined;
-  Settings: { name: string };
+  SettingsScreen: { fromBottomTabs?: boolean };
 };
 
 export type OnboardingInfoType = "skipped" | "completed" | "";

@@ -30,10 +30,10 @@ const Splash: FC = () => {
           })
         );
         dispatch(storeOnboardingType(onboardingType as OnboardingInfoType));
-        if (onboardingType !== "") navigation.replace("HomeStack");
+        if (onboardingType !== "") navigation.replace("BottomTabs");
       } else {
         dispatch(logout());
-        navigation.replace("AuthStack");
+        navigation.replace("AuthScreen");
       }
       setIsLoading(false);
     };

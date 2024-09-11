@@ -13,6 +13,7 @@ const AppleSignIn: FC<SignInComponentProps> = ({
   handleSignIn,
   errorDialog,
   redirectTo,
+  fromBottomTabs,
 }) => {
   const navigation: NavigationType = useNavigation();
   const [appleSignIn] = useAppleSignInMutation();
@@ -25,7 +26,8 @@ const AppleSignIn: FC<SignInComponentProps> = ({
       navigation,
       dispatch,
       errorDialog,
-      redirectTo
+      redirectTo,
+      fromBottomTabs
     );
   };
 
