@@ -1,12 +1,6 @@
 import { FC, useState } from "react";
-import { View, StyleSheet } from "react-native";
-import {
-  Button,
-  Text,
-  Surface,
-  TouchableRipple,
-  MD3Colors,
-} from "react-native-paper";
+import { View } from "react-native";
+import { Button, Text, Surface, TouchableRipple } from "react-native-paper";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
@@ -15,8 +9,9 @@ import {
   TimePickerModal,
   registerTranslation,
 } from "react-native-paper-dates";
+import styles from "./DateSelector.styles";
 
-import { isIos, isAndroid } from "../../../common/constants/constants";
+import { isIos, isAndroid } from "../../../../common/constants/constants";
 
 interface Props {
   onIosChange: (currentDate: Date) => void;
@@ -152,29 +147,5 @@ const DateSelector: FC<Props> = ({
     </TouchableRipple>
   );
 };
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 20,
-  },
-  titleContainer: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  selectionDetailsContainer: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  selectedItemText: {
-    color: MD3Colors.secondary60,
-    marginRight: 4,
-  },
-});
 
 export default DateSelector;

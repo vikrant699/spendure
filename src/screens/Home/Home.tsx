@@ -1,9 +1,10 @@
 import { FC } from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
+
 import { useAppSelector } from "../../store/hooks";
 import { NavigationOnlyProps } from "../../common/typesAndInterfaces/interfaces";
 import Card from "../../common/components/Card";
-import { width } from "../../common/constants/constants";
+import styles from "./Home.styles";
 
 const Home: FC<NavigationOnlyProps> = ({ navigation }) => {
   const accounts = useAppSelector((state) => state.accounts);
@@ -31,17 +32,5 @@ const Home: FC<NavigationOnlyProps> = ({ navigation }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    paddingVertical: 20,
-    paddingHorizontal: width / 15,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexWrap: "wrap",
-  },
-});
 
 export default Home;

@@ -1,8 +1,8 @@
 import { FC, useState, useEffect } from "react";
-import { StyleSheet, Keyboard, Pressable, Platform, View } from "react-native";
+import { Keyboard, Pressable, View } from "react-native";
 import { TextInput, Button, SegmentedButtons } from "react-native-paper";
 
-import DateSelector from "./components/DateSelector";
+import DateSelector from "./components/DateSelector/DateSelector";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { NavigationOnlyProps } from "../../common/typesAndInterfaces/interfaces";
 import {
@@ -13,7 +13,8 @@ import {
 } from "../../store/store";
 8;
 import SelectItems from "../../common/components/SelectItems";
-import { isIos, transactionCategories } from "../../common/constants/constants";
+import { transactionCategories } from "../../common/constants/constants";
+import styles from "./AddTransaction.styles";
 
 const AddTrasaction: FC<NavigationOnlyProps> = ({ navigation }) => {
   const selectedAccountId = useAppSelector(
@@ -246,30 +247,5 @@ const AddTrasaction: FC<NavigationOnlyProps> = ({ navigation }) => {
     </Pressable>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 30,
-    paddingTop: 30,
-    paddingBottom: isIos ? 40 : 10,
-    display: "flex",
-    width: "100%",
-    height: "100%",
-  },
-  segmentedButtonsContainer: {
-    marginVertical: 20,
-  },
-  inputContainer: {
-    marginVertical: 20,
-  },
-  selectionContainer: {
-    marginVertical: 20,
-    borderRadius: 10,
-    overflow: "hidden",
-  },
-  addTransactionButtonContainer: {
-    marginVertical: 20,
-  },
-});
 
 export default AddTrasaction;

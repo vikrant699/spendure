@@ -1,6 +1,6 @@
 import { FC, useState, useRef } from "react";
 import { Button, TextInput } from "react-native-paper";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import { RouteProp, CommonActions } from "@react-navigation/native";
 
 import AppleSignIn from "./components/AppleSignIn/AppleSignIn";
@@ -14,6 +14,7 @@ import { useSignInWithEmailMutation } from "../../store/apis/authApis/authApis";
 import { handleSocialSignIn } from "./Auth.helpers";
 import { RootStackParamList } from "../../common/typesAndInterfaces/types";
 import { isIos } from "../../common/constants/constants";
+import styles from "./Auth.styles";
 
 type AuthRouteProp = RouteProp<RootStackParamList, "AuthScreen">;
 interface AuthProps extends NavigationOnlyProps {
@@ -110,20 +111,5 @@ const Auth: FC<AuthProps> = ({ navigation, route }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 40,
-    padding: 12,
-  },
-  verticallySpaced: {
-    paddingTop: 4,
-    paddingBottom: 4,
-    alignSelf: "stretch",
-  },
-  mt20: {
-    marginTop: 20,
-  },
-});
 
 export default Auth;

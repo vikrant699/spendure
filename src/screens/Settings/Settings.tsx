@@ -1,6 +1,6 @@
 import { FC, useRef } from "react";
 import { Button } from "react-native-paper";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 
 import { NavigationOnlyProps } from "../../common/typesAndInterfaces/interfaces";
@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useSignOutMutation } from "../../store/apis/authApis/authApis";
 import { logout } from "../../store/slices/authSlice";
 import { RootStackParamList } from "../../common/typesAndInterfaces/types";
+import styles from "./Settings.styles";
 
 type SettingsRouteProp = RouteProp<RootStackParamList, "SettingsScreen">;
 interface SettingsProps extends NavigationOnlyProps {
@@ -49,20 +50,5 @@ const Settings: FC<SettingsProps> = ({ navigation, route }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 40,
-    padding: 12,
-  },
-  verticallySpaced: {
-    paddingTop: 4,
-    paddingBottom: 4,
-    alignSelf: "stretch",
-  },
-  mt20: {
-    marginTop: 20,
-  },
-});
 
 export default Settings;

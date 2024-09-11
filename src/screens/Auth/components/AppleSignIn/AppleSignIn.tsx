@@ -1,6 +1,5 @@
 import { FC } from "react";
 import * as AppleAuthentication from "expo-apple-authentication";
-import { Platform, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { useAppDispatch } from "../../../../store/hooks";
@@ -8,6 +7,7 @@ import { NavigationType } from "../../../../common/typesAndInterfaces/types";
 import { useAppleSignInMutation } from "../../../../store/apis/authApis/authApis";
 import { SignInComponentProps } from "../../typesAndInterfaces/interfaces";
 import { isIos } from "../../../../common/constants/constants";
+import styles from "./AppleSignIn.styles";
 
 const AppleSignIn: FC<SignInComponentProps> = ({
   handleSignIn,
@@ -56,10 +56,3 @@ const AppleSignIn: FC<SignInComponentProps> = ({
 };
 
 export default AppleSignIn;
-
-const styles = StyleSheet.create({
-  button: {
-    width: 200,
-    height: 44,
-  },
-});

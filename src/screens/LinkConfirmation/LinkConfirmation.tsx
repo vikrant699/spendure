@@ -1,6 +1,6 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { Text, Button } from "react-native-paper";
-import { Linking as AppLinking, View, StyleSheet } from "react-native";
+import { Linking as AppLinking, View } from "react-native";
 import { useURL } from "expo-linking";
 import { IntentLauncherParams, startActivityAsync } from "expo-intent-launcher";
 import { RouteProp, CommonActions } from "@react-navigation/native";
@@ -18,6 +18,7 @@ import CustomDialog, {
 } from "../../common/components/CustomDialog";
 import { RootStackParamList } from "../../common/typesAndInterfaces/types";
 import { isIos, isAndroid } from "../../common/constants/constants";
+import styles from "./LinkConfirmation.styles";
 
 type LinkConfirmationRouteProp = RouteProp<
   RootStackParamList,
@@ -121,20 +122,5 @@ const LinkConfirmation: FC<LinkConfirmationProps> = ({ navigation, route }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 40,
-    padding: 12,
-  },
-  verticallySpaced: {
-    paddingTop: 4,
-    paddingBottom: 4,
-    alignSelf: "stretch",
-  },
-  mt20: {
-    marginTop: 20,
-  },
-});
 
 export default LinkConfirmation;

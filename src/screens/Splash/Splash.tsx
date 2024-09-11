@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -11,6 +11,7 @@ import {
   OnboardingInfoType,
 } from "../../common/typesAndInterfaces/types";
 import { useAppDispatch } from "../../store/hooks";
+import styles from "./Splash.styles";
 
 const Splash: FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -51,13 +52,5 @@ const Splash: FC = () => {
 
   return null;
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
 
 export default Splash;
