@@ -3,16 +3,16 @@ import { View, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { supabase } from "../common/libraries/supabase";
-import { login, logout } from "../store/slices/authSlice";
-import { storeOnboardingType } from "../store/thunks/authThunks";
+import { supabase } from "../../common/libraries/supabase";
+import { login, logout } from "../../store/slices/authSlice";
+import { storeOnboardingType } from "../../store/thunks/authThunks";
 import {
   NavigationType,
   OnboardingInfoType,
-} from "../common/typesAndInterfaces/types";
-import { useAppDispatch } from "../store/hooks";
+} from "../../common/typesAndInterfaces/types";
+import { useAppDispatch } from "../../store/hooks";
 
-const SplashScreen: FC = () => {
+const Splash: FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const navigation: NavigationType = useNavigation();
   const dispatch = useAppDispatch();
@@ -60,4 +60,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SplashScreen;
+export default Splash;

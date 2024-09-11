@@ -1,7 +1,8 @@
 import { FC, useState, useEffect } from "react";
 import { StyleSheet, Keyboard, Pressable, Platform, View } from "react-native";
 import { TextInput, Button, SegmentedButtons } from "react-native-paper";
-import DateSelector from "./DateSelector";
+
+import DateSelector from "./components/DateSelector";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { NavigationOnlyProps } from "../../common/typesAndInterfaces/interfaces";
 import {
@@ -12,9 +13,9 @@ import {
 } from "../../store/store";
 8;
 import SelectItems from "../../common/components/SelectItems";
-import { transactionCategories } from "../../common/constants/constants";
+import { isIos, transactionCategories } from "../../common/constants/constants";
 
-const AddTrasactionScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
+const AddTrasaction: FC<NavigationOnlyProps> = ({ navigation }) => {
   const selectedAccountId = useAppSelector(
     (state) => state.appState.selectedAccountId
   );
@@ -250,7 +251,7 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 30,
     paddingTop: 30,
-    paddingBottom: Platform.OS === "ios" ? 40 : 10,
+    paddingBottom: isIos ? 40 : 10,
     display: "flex",
     width: "100%",
     height: "100%",
@@ -271,4 +272,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddTrasactionScreen;
+export default AddTrasaction;

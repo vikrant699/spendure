@@ -7,6 +7,7 @@ import { useAppDispatch } from "../../../../store/hooks";
 import { NavigationType } from "../../../../common/typesAndInterfaces/types";
 import { useAppleSignInMutation } from "../../../../store/apis/authApis/authApis";
 import { SignInComponentProps } from "../../typesAndInterfaces/interfaces";
+import { isIos } from "../../../../common/constants/constants";
 
 const AppleSignIn: FC<SignInComponentProps> = ({
   handleSignIn,
@@ -30,7 +31,7 @@ const AppleSignIn: FC<SignInComponentProps> = ({
 
   return (
     <>
-      {Platform.OS === "ios" ? (
+      {isIos ? (
         <>
           <AppleAuthentication.AppleAuthenticationButton
             buttonType={

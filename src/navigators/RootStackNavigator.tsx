@@ -2,7 +2,7 @@ import { FC } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AuthStack from "./AuthStack";
 import HomeStack from "./HomeStack";
-import SplashScreen from "../screens/SplashScreen";
+import SplashScreen from "../screens/Splash/Splash";
 
 const Stack = createNativeStackNavigator();
 

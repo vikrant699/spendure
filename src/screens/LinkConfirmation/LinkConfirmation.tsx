@@ -1,11 +1,6 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { Text, Button } from "react-native-paper";
-import {
-  Linking as AppLinking,
-  Platform,
-  View,
-  StyleSheet,
-} from "react-native";
+import { Linking as AppLinking, View, StyleSheet } from "react-native";
 import { useURL } from "expo-linking";
 import { IntentLauncherParams, startActivityAsync } from "expo-intent-launcher";
 import { RouteProp } from "@react-navigation/native";
@@ -22,6 +17,7 @@ import CustomDialog, {
   CustomDialogHandles,
 } from "../../common/components/CustomDialog";
 import { AuthStackParamList } from "../../common/typesAndInterfaces/types";
+import { isIos, isAndroid } from "../../common/constants/constants";
 
 type LinkConfirmationRouteProp = RouteProp<
   AuthStackParamList,
@@ -74,13 +70,13 @@ const LinkConfirmation: FC<LinkConfirmationProps> = ({ navigation, route }) => {
   };
 
   const openEmailApp = () => {
-    if (Platform.OS === "android") {
+    if (isAndroid) {
       const activityAction = "android.intent.action.MAIN";
       const intentParams: IntentLauncherParams = {
         category: "android.intent.category.APP_EMAIL",
       };
       startActivityAsync(activityAction, intentParams);
-    } else if (Platform.OS === "ios") {
+    } else if (isIos) {
       AppLinking.openURL("message://");
     }
   };

@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { View, StyleSheet, Platform } from "react-native";
+import { View, StyleSheet } from "react-native";
 import {
   Button,
   Text,
@@ -15,6 +15,8 @@ import {
   TimePickerModal,
   registerTranslation,
 } from "react-native-paper-dates";
+
+import { isIos, isAndroid } from "../../../common/constants/constants";
 
 interface Props {
   onIosChange: (currentDate: Date) => void;
@@ -104,14 +106,14 @@ const DateSelector: FC<Props> = ({
           <Text variant="titleMedium">Date & Time</Text>
         </View>
         <View style={styles.selectionDetailsContainer}>
-          {Platform.OS === "ios" && (
+          {isIos && (
             <DateTimePicker
               value={new Date()}
               mode="datetime"
               onChange={onDateChange}
             />
           )}
-          {Platform.OS === "android" && (
+          {isAndroid && (
             <>
               <Button
                 onPress={() => setDateModalVisible(true)}

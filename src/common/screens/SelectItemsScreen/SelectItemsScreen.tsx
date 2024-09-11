@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from "react";
+import { FC } from "react";
 import { View, ScrollView, StyleSheet, LogBox } from "react-native";
 import { MD3DarkTheme } from "react-native-paper";
 import { RouteProp } from "@react-navigation/native";
@@ -35,7 +35,10 @@ const SelectItemsScreen: FC<Props> = ({ navigation, route }) => {
     return false;
   };
 
-  const { items, onSelect, screenNumber, itemIcon } = route.params;
+  const {
+    params: { items, onSelect, screenNumber, itemIcon },
+  } = route;
+
   const typedItems = items as Item[];
 
   const handleSelection = (selection: Record<string, any>): void => {

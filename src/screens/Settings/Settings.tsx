@@ -3,11 +3,11 @@ import { Button } from "react-native-paper";
 import { View, StyleSheet } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 
-import { NavigationOnlyProps } from "../common/typesAndInterfaces/interfaces";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { useSignOutMutation } from "../store/apis/authApis/authApis";
-import { logout } from "../store/slices/authSlice";
-import { HomeStackParamList } from "../common/typesAndInterfaces/types";
+import { NavigationOnlyProps } from "../../common/typesAndInterfaces/interfaces";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useSignOutMutation } from "../../store/apis/authApis/authApis";
+import { logout } from "../../store/slices/authSlice";
+import { HomeStackParamList } from "../../common/typesAndInterfaces/types";
 
 type SettingsRouteProp = RouteProp<HomeStackParamList, "Settings">;
 interface SettingsProps extends NavigationOnlyProps {

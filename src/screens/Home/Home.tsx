@@ -5,7 +5,7 @@ import { NavigationOnlyProps } from "../../common/typesAndInterfaces/interfaces"
 import Card from "../../common/components/Card";
 import { width } from "../../common/constants/constants";
 
-const HomeScreen: FC<NavigationOnlyProps> = ({ navigation }) => {
+const Home: FC<NavigationOnlyProps> = ({ navigation }) => {
   const accounts = useAppSelector((state) => state.accounts);
 
   const handleAccountPress = () => {
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default Home;

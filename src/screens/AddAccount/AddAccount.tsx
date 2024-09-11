@@ -1,16 +1,12 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import { View } from "react-native";
-import { TextInput, Button, SegmentedButtons } from "react-native-paper";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
-import { useAppDispatch } from "../store/hooks";
-import { addAccount } from "../store/store";
-import { RootStackParamList } from "../common/typesAndInterfaces/types";
+import { TextInput, Button } from "react-native-paper";
 
-const AddAccountScreen = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+import { useAppDispatch } from "../../store/hooks";
+import { addAccount } from "../../store/store";
+import { NavigationOnlyProps } from "../../common/typesAndInterfaces/interfaces";
 
+const AddAccount: FC<NavigationOnlyProps> = ({ navigation }) => {
   const [accountName, setAccountName] = useState<string>("");
   const [balance, setBalance] = useState<number>(0);
 
@@ -43,4 +39,4 @@ const AddAccountScreen = () => {
   );
 };
 
-export default AddAccountScreen;
+export default AddAccount;

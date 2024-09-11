@@ -1,6 +1,6 @@
 import { FC, useState, useRef } from "react";
 import { Button, TextInput } from "react-native-paper";
-import { View, StyleSheet, Platform } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 
 import AppleSignIn from "./components/AppleSignIn/AppleSignIn";
@@ -11,8 +11,9 @@ import CustomDialog, {
 } from "../../common/components/CustomDialog";
 import { NavigationOnlyProps } from "../../common/typesAndInterfaces/interfaces";
 import { useSignInWithEmailMutation } from "../../store/apis/authApis/authApis";
-import { handleSocialSignIn } from "./AuthScreen.helpers";
+import { handleSocialSignIn } from "./Auth.helpers";
 import { AuthStackParamList } from "../../common/typesAndInterfaces/types";
+import { isIos } from "../../common/constants/constants";
 
 type AuthRouteProp = RouteProp<AuthStackParamList, "AuthScreen">;
 interface AuthProps extends NavigationOnlyProps {
@@ -76,7 +77,7 @@ const Auth: FC<AuthProps> = ({ navigation, route }) => {
         errorDialog={errorDialogRef.current!}
         redirectTo={redirectTo}
       />
-      {Platform.OS === "ios" ? (
+      {isIos ? (
         <GoogleSignInOAuth
           handleSignIn={handleSocialSignIn}
           errorDialog={errorDialogRef.current!}

@@ -1,14 +1,16 @@
 import { FC } from "react";
-import { View, Platform, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { MD3DarkTheme, TouchableRipple } from "react-native-paper";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../types";
+
+import { HomeStackParamList } from "../../common/typesAndInterfaces/types";
+import { isIos } from "../../common/constants/constants";
 
 const AddTransactionButton: FC = () => {
   const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+    useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   return (
     <>
@@ -31,7 +33,7 @@ const styles = StyleSheet.create({
   container: {
     position: "absolute",
     zIndex: 99,
-    bottom: Platform.OS === "ios" ? 55 : 18,
+    bottom: isIos ? 55 : 18,
     alignSelf: "center",
     shadowColor: "black",
     shadowOpacity: 0.15,

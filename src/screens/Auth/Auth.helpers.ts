@@ -1,5 +1,3 @@
-import { Platform } from "react-native";
-
 import { statusCodes } from "../../common/libraries/googleSignInNative";
 import { CustomDialogHandles } from "../../common/components/CustomDialog";
 import { login } from "../../store/slices/authSlice";
@@ -7,10 +5,11 @@ import { NavigationType } from "../../common/typesAndInterfaces/types";
 import { AppDispatch } from "../../store/store";
 import { storeOnboardingType } from "../../store/thunks/authThunks";
 import { Error } from "./typesAndInterfaces/interfaces";
+import { isAndroid } from "../../common/constants/constants";
 
 const handleError = (error: Error, errorDialog: CustomDialogHandles) => {
   const ignoreErrorCodes = ["ERR_REQUEST_CANCELED", "UNKNOWN"];
-  if (Platform.OS === "android") {
+  if (isAndroid) {
     if (error.code === statusCodes?.SIGN_IN_CANCELLED) {
       return;
     } else if (error.code === statusCodes?.PLAY_SERVICES_NOT_AVAILABLE) {

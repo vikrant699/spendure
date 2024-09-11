@@ -2,8 +2,8 @@ import { FC } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import BottomTabNavigator from "./BottomTabNavigator";
 import AddTransactionStack from "./AddTransactionStack";
-import SettingsScreen from "../screens/SettingsScreen";
-import AddAccountScreen from "../screens/AddAccountScreen";
+import SettingsScreen from "../screens/Settings/Settings";
+import AddAccountScreen from "../screens/AddAccount/AddAccount";
 import { HomeStackParamList } from "../common/typesAndInterfaces/types";
 
 const Stack = createNativeStackNavigator<HomeStackParamList>();

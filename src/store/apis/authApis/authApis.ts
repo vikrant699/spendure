@@ -1,16 +1,14 @@
-import { Platform } from "react-native";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { makeRedirectUri, AuthSessionResult } from "expo-auth-session";
 import {
   signInAsync,
   AppleAuthenticationScope,
 } from "expo-apple-authentication";
+
 import { supabase } from "../../../common/libraries/supabase";
-import {
-  GoogleSignin,
-  statusCodes,
-} from "../../../common/libraries/googleSignInNative";
+import { GoogleSignin } from "../../../common/libraries/googleSignInNative";
 import { validateEmail } from "./authApis.helpers";
+import { isAndroid } from "../../../common/constants/constants";
 
 export const authApi = createApi({
   reducerPath: "authApi",
@@ -44,7 +42,7 @@ export const authApi = createApi({
           const { error } = await supabase.auth.signOut();
           if (error) throw error;
 
-          if (Platform.OS === "android") {
+          if (isAndroid) {
             await GoogleSignin.revokeAccess();
             await GoogleSignin.signOut();
           }

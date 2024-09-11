@@ -4,9 +4,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BottomNavigation } from "react-native-paper";
 import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
 
-import HomeScreen from "../screens/Home/HomeScreen";
-import SettingsScreen from "../screens/SettingsScreen";
-import AddTransactionButton from "../common/components/AddTransactionButton";
+import HomeScreen from "../screens/Home/Home";
+import SettingsScreen from "../screens/Settings/Settings";
+import AddTransactionButton from "./components/AddTransactionButton";
 import { BottomTabsParamList } from "../common/typesAndInterfaces/types";
 
 const Tab = createBottomTabNavigator<BottomTabsParamList>();
